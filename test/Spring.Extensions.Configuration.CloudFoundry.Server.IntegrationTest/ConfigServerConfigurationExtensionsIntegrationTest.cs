@@ -94,11 +94,10 @@ namespace Spring.Extensions.Configuration.Server.IntegrationTest
             System.Environment.SetEnvironmentVariable("VCAP_APPLICATION", VCAP_APPLICATION);
             System.Environment.SetEnvironmentVariable("VCAP_SERVICES", VCAP_SERVICES);
 
-            // TestServerCloudfoundryStartup uses AddCloudfoundry() which parses VCAP_APPLICATION/VCAP_SERVICES
             var builder = new WebHostBuilder().UseStartup<TestServerCloudfoundryStartup>()
                                                 .UseEnvironment("development");
 
-            // Act and Assert (TestServer expects Spring Cloud Config server to be running)
+            // Act and Assert (TestServer expects Spring Cloud Config server to be running @ localhost:8888)
             using (var server = new TestServer(builder))
             {
                 var client = server.CreateClient();

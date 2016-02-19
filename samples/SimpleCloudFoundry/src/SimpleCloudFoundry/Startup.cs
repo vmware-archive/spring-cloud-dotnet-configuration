@@ -21,7 +21,6 @@ namespace SimpleCloudFoundry
                 .AddJsonFile("appsettings.json")
                 .AddEnvironmentVariables()
 
-                //
                 // Adds the Spring Cloud Configuration Server as a configuration source.
                 // The settings used in contacting the Server will be picked up from
                 // appsettings.json, and then overriden from any environment variables, and then

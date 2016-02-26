@@ -48,8 +48,8 @@ namespace Spring.Extensions.Configuration.CloudFoundry
             string appJson = vcap[APPLICATION];
             if (!string.IsNullOrEmpty(appJson))
             {
-                // TODO: Hack in order to use asp.net json config provider
-                //       Need to write parser 
+ 
+                //TODO: Use JsonStreamConfigurationProvider when Configuration PR accepted
                 var path = CreateTempFile(appJson);
                 ConfigurationBuilder builder = new ConfigurationBuilder();
                 builder.AddJsonFile(path);
@@ -69,8 +69,7 @@ namespace Spring.Extensions.Configuration.CloudFoundry
             string appServicesJson = vcap[SERVICES];
             if (!string.IsNullOrEmpty(appServicesJson))
             {
-                // TODO: Hack in order to use asp.net json config provider
-                //       Need to write parser 
+                //TODO: Use JsonStreamConfigurationProvider when Configuration PR accepted
                 var path = CreateTempFile(appServicesJson);
                 ConfigurationBuilder builder = new ConfigurationBuilder();
                 builder.AddJsonFile(path);
@@ -113,7 +112,7 @@ namespace Spring.Extensions.Configuration.CloudFoundry
             Data[prefix + Constants.KeyDelimiter + section.Path] = section.Value;
         }
 
-        // TODO: Remove
+        // TODO: Remove when moving to JsonStreamConfigurationProvier
         private static string CreateTempFile(string contents)
         {
             var tempFile = Path.GetTempFileName();

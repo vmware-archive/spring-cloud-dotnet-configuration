@@ -16,6 +16,7 @@ namespace SimpleCloudFoundry
         public Startup(IHostingEnvironment env, ILoggerFactory logFactory)
         {
             logFactory.AddConsole(minLevel: LogLevel.Debug);
+
             // Set up configuration sources.
             var builder = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
@@ -37,19 +38,17 @@ namespace SimpleCloudFoundry
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Optional for Spring Cloud Configuration Server.  
+            // Adds IConfigurationRoot as a service and also configures the 
+            // IOption<ConfigServerClientSettingsOptions> and also adds
+            // the Configuration data from VCAP_APPLICATION and VCAP_SERVICES
+            // as IOption<CloudFoundryApplicationOptions> and IOption<CloudFoundryServicesOptions>
+            // After this call, all these components can be injected into other 
+            // components(e.g. HomeController) using the standard ASP.NET DI mechanisms.
+            services.AddConfigServer(Configuration);
+
             // Add framework services.
-            services.AddOptions();
             services.AddMvc();
-
-            // Add the Configuration data from VCAP_APPLICATION and VCAP_SERVICES
-            // as IOptions that can be injected into other ASP.NET components (e.g. HomeController)
-            services.Configure<CloudFoundryApplicationOptions>(Configuration);
-            services.Configure<CloudFoundryServicesOptions>(Configuration);
-
-            // Add the Spring Cloud Config Server client settings as IOption<>
-            // Then it can be injected into other ASP.NET components (eg. HomeControllqer) using 
-            // standard DI mechanisms provided by ASP.NET
-            services.Configure<ConfigServerClientSettingsOptions>(Configuration);
 
             // Add the configuration data returned from the Spring Cloud Config Server
             // as IOptions that can be injected into other ASP.NET components (eg. HomeController)

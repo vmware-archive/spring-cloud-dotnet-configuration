@@ -14,12 +14,8 @@
 // limitations under the License.
 //
 
-using Microsoft.AspNet.Hosting;
-using Microsoft.AspNet.TestHost;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 using Xunit;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
@@ -305,6 +301,79 @@ namespace Spring.Extensions.Configuration.CloudFoundry.Test
                 options.Services[0].Credentials["protocols"]["amqp"]["uris"]["0"].Value);
 
             //}
+        }
+        [Fact]
+        public void ConfigureCloudFoundryOptions_With_MultipleOfSame_VCAP_SERVICES_Environment_ConfiguresCloudFoundryServicesOptions()
+        {
+            // Arrange
+            var environment = @"
+{
+    'p-mysql': [
+    {
+        'name': 'mySql1',
+        'label': 'p-mysql',
+        'tags': [
+        'mysql',
+        'relational'
+        ],
+        'plan': '100mb-dev',
+        'credentials': {
+            'hostname': '192.168.0.97',
+            'port': 3306,
+            'name': 'cf_0f5dda44_e678_4727_993f_30e6d455cc31',
+            'username': '9vD0Mtk3wFFuaaaY',
+            'password': 'Cjn4HsAiKV8sImst',
+            'uri': 'mysql://9vD0Mtk3wFFuaaaY:Cjn4HsAiKV8sImst@192.168.0.97:3306/cf_0f5dda44_e678_4727_993f_30e6d455cc31?reconnect=true',
+            'jdbcUrl': 'jdbc:mysql://192.168.0.97:3306/cf_0f5dda44_e678_4727_993f_30e6d455cc31?user=9vD0Mtk3wFFuaaaY&password=Cjn4HsAiKV8sImst'
+        }
+    },
+    {
+        'name': 'mySql2',
+        'label': 'p-mysql',
+        'tags': [
+        'mysql',
+        'relational'
+        ],
+        'plan': '100mb-dev',
+        'credentials': {
+            'hostname': '192.168.0.97',
+            'port': 3306,
+            'name': 'cf_0f5dda44_e678_4727_993f_30e6d455cc31',
+            'username': '9vD0Mtk3wFFuaaaY',
+            'password': 'Cjn4HsAiKV8sImst',
+            'uri': 'mysql://9vD0Mtk3wFFuaaaY:Cjn4HsAiKV8sImst@192.168.0.97:3306/cf_0f5dda44_e678_4727_993f_30e6d455cc31?reconnect=true',
+            'jdbcUrl': 'jdbc:mysql://192.168.0.97:3306/cf_0f5dda44_e678_4727_993f_30e6d455cc31?user=9vD0Mtk3wFFuaaaY&password=Cjn4HsAiKV8sImst'
+        }
+    }
+    ]
+}";
+            // Arrange
+            Environment.SetEnvironmentVariable("VCAP_SERVICES", environment);
+            var services = new ServiceCollection().AddOptions();
+            // Act and Assert
+
+            var builder = new ConfigurationBuilder().AddCloudFoundry();
+            var config = builder.Build();
+
+            services.Configure<CloudFoundryServicesOptions>(config);
+            var service = services.BuildServiceProvider().GetService<IOptions<CloudFoundryServicesOptions>>();
+            Assert.NotNull(service);
+            var options = service.Value;
+            Assert.NotNull(options.Services);
+            Assert.Equal(2, options.Services.Count);
+
+            Assert.Equal("p-mysql", options.Services[0].Label);
+            Assert.Equal("p-mysql", options.Services[1].Label);
+       
+            Assert.True(options.Services[0].Name.Equals("mySql1") || options.Services[0].Name.Equals("mySql2"));
+            Assert.True(options.Services[1].Name.Equals("mySql1") || options.Services[1].Name.Equals("mySql2"));
+
+            Assert.Equal("192.168.0.97", options.Services[0].Credentials["hostname"].Value);
+            Assert.Equal("192.168.0.97", options.Services[1].Credentials["hostname"].Value);
+            Assert.Equal("3306", options.Services[0].Credentials["port"].Value);
+            Assert.Equal("cf_0f5dda44_e678_4727_993f_30e6d455cc31", options.Services[0].Credentials["name"].Value);
+            Assert.Equal("cf_0f5dda44_e678_4727_993f_30e6d455cc31", options.Services[1].Credentials["name"].Value);
+
         }
     }
 }

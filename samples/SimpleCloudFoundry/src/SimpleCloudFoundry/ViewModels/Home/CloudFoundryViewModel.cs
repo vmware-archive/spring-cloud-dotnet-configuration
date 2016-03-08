@@ -1,4 +1,4 @@
-﻿using Spring.Extensions.Configuration.CloudFoundry;
+﻿using SteelToe.Extensions.Configuration.CloudFoundry;
 
 
 namespace SimpleCloudFoundry.ViewModels.Home

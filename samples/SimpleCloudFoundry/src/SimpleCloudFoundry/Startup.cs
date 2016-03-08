@@ -4,8 +4,8 @@ using Microsoft.AspNet.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Spring.Extensions.Configuration.CloudFoundry;
-using Spring.Extensions.Configuration.Server;
+using SteelToe.Extensions.Configuration.CloudFoundry;
+using Pivotal.Extensions.Configuration;
 using SimpleCloudFoundry.Model;
 using System;
 

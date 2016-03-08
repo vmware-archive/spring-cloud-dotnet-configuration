@@ -1,11 +1,7 @@
 ﻿using Microsoft.AspNet.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.OptionsModel;
+
 using SimpleCloudFoundry.Controllers;
-using Spring.Extensions.Configuration.CloudFoundry;
-using Spring.Extensions.Configuration.Server;
-using System;
 using Xunit;
 
 namespace SimpleCloudFoundry.Test.Controllers

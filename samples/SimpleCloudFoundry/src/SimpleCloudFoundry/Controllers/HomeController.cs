@@ -2,9 +2,10 @@
 using Microsoft.AspNet.Mvc;
 using SimpleCloudFoundry.Model;
 using Microsoft.Extensions.OptionsModel;
-using Spring.Extensions.Configuration.CloudFoundry;
+using SteelToe.Extensions.Configuration.CloudFoundry;
 using SimpleCloudFoundry.ViewModels.Home;
-using Spring.Extensions.Configuration.Server;
+using Pivotal.Extensions.Configuration.ConfigServer;
+using Microsoft.Extensions.Configuration;
 
 namespace SimpleCloudFoundry.Controllers
 {
@@ -15,8 +16,10 @@ namespace SimpleCloudFoundry.Controllers
         private CloudFoundryServicesOptions CloudFoundryServices { get; set; }
         private CloudFoundryApplicationOptions CloudFoundryApplication { get; set; }
         private ConfigServerClientSettingsOptions ConfigServerClientSettingsOptions { get; set; }
+        private IConfigurationRoot Config { get; set; }
 
-        public HomeController(IOptions<ConfigServerData> configServerData, 
+        public HomeController(IConfigurationRoot config,
+            IOptions<ConfigServerData> configServerData, 
             IOptions<CloudFoundryApplicationOptions> appOptions, 
             IOptions<CloudFoundryServicesOptions> servOptions,
             IOptions<ConfigServerClientSettingsOptions> confgServerSettings)
@@ -38,6 +41,8 @@ namespace SimpleCloudFoundry.Controllers
             // Inject the settings used in communicating with the Spring Cloud Config Server
             if (confgServerSettings != null)
                 ConfigServerClientSettingsOptions = confgServerSettings.Value;
+
+            Config = config;
         }
 
         public IActionResult Index()
@@ -65,29 +70,7 @@ namespace SimpleCloudFoundry.Controllers
         }
         public IActionResult ConfigServer()
         {
-            // ConfigServerData property is set to a ConfigServerData POCO that has been
-            // initialized with the configuration data returned from the Spring Cloud Config Server
-            if (ConfigServerData != null)
-            {
-                ViewData["Bar"] = ConfigServerData.Bar ?? "Not returned";
-                ViewData["Foo"] = ConfigServerData.Foo ?? "Not returned";
-
-                ViewData["Info.Url"] = "Not returned";
-                ViewData["Info.Description"] = "Not returned";
-
-                if (ConfigServerData.Info != null)
-                {
-                    ViewData["Info.Url"] = ConfigServerData.Info.Url ?? "Not returned";
-                    ViewData["Info.Description"] = ConfigServerData.Info.Description ?? "Not returned";
-                }
-            }
-            else {
-                ViewData["Bar"] = "Not Available";
-                ViewData["Foo"] = "Not Available";
-                ViewData["Info.Url"] = "Not Available";
-                ViewData["Info.Description"] = "Not Available";
-            }
-
+            CreateConfigServerDataViewData();
             return View();
         }
         public IActionResult ConfigServerSettings()
@@ -129,6 +112,53 @@ namespace SimpleCloudFoundry.Controllers
             return View(new CloudFoundryViewModel(
                 CloudFoundryApplication == null ? new CloudFoundryApplicationOptions() : CloudFoundryApplication,
                 CloudFoundryServices == null ? new CloudFoundryServicesOptions() : CloudFoundryServices));
+        }
+
+        public IActionResult Reload()
+        {
+            if (Config != null)
+            {
+                Config.Reload();
+
+
+                // TODO: When moving to RC2 use Options track change feature
+                // CreateConfigServerDataViewData();
+                ViewData["Bar"] = Config["bar"] ?? "Not returned";
+                ViewData["Foo"] = Config["foo"] ?? "Not returned";
+
+                ViewData["Info.Url"] = Config["info:url"] ?? "Not returned";
+                ViewData["Info.Description"] = Config["info:description"] ?? "Not returned";
+            }
+
+            return View();
+        }
+
+        private void CreateConfigServerDataViewData()
+        {
+
+            // ConfigServerData property is set to a ConfigServerData POCO that has been
+            // initialized with the configuration data returned from the Spring Cloud Config Server
+            if (ConfigServerData != null)
+            {
+                ViewData["Bar"] = ConfigServerData.Bar ?? "Not returned";
+                ViewData["Foo"] = ConfigServerData.Foo ?? "Not returned";
+
+                ViewData["Info.Url"] = "Not returned";
+                ViewData["Info.Description"] = "Not returned";
+
+                if (ConfigServerData.Info != null)
+                {
+                    ViewData["Info.Url"] = ConfigServerData.Info.Url ?? "Not returned";
+                    ViewData["Info.Description"] = ConfigServerData.Info.Description ?? "Not returned";
+                }
+            }
+            else {
+                ViewData["Bar"] = "Not Available";
+                ViewData["Foo"] = "Not Available";
+                ViewData["Info.Url"] = "Not Available";
+                ViewData["Info.Description"] = "Not Available";
+            }
+
         }
 
     }

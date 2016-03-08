@@ -7,20 +7,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{7B274640-7AF
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{5B6FDF64-9860-4155-BA05-D8901B818337}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Spring.Extensions.Configuration.CloudFoundry", "src\Spring.Extensions.Configuration.CloudFoundry\Spring.Extensions.Configuration.CloudFoundry.xproj", "{4A9D10C9-D365-41DD-9870-9D846A3D9EB1}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Spring.Extensions.Configuration.CloudFoundry.Test", "test\Spring.Extensions.Configuration.CloudFoundry.Test\Spring.Extensions.Configuration.CloudFoundry.Test.xproj", "{9F29BED6-ECE3-42A2-8C57-C1A6831B9CF1}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{AD72764B-953E-4AB7-9578-8E4FD405BFFE}"
 	ProjectSection(SolutionItems) = preProject
 		global.json = global.json
 	EndProjectSection
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Spring.Extensions.Configuration.CloudFoundry.Server", "src\Spring.Extensions.Configuration.CloudFoundry.Server\Spring.Extensions.Configuration.CloudFoundry.Server.xproj", "{D06283B3-995E-4AC2-B45F-DF6A6C377699}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Pivotal.Extensions.Configuration.ConfigServer", "src\Pivotal.Extensions.Configuration.ConfigServer\Pivotal.Extensions.Configuration.ConfigServer.xproj", "{E81E7EE3-9978-474C-A89D-209C12E8A43F}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Spring.Extensions.Configuration.CloudFoundry.Server.Test", "test\Spring.Extensions.Configuration.CloudFoundry.Server.Test\Spring.Extensions.Configuration.CloudFoundry.Server.Test.xproj", "{ECCB52BE-A124-4213-95A3-0C4842AA55A1}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Pivotal.Extensions.Configuration.ConfigServer.Test", "test\Pivotal.Extensions.Configuration.ConfigServer.Test\Pivotal.Extensions.Configuration.ConfigServer.Test.xproj", "{3CC992C1-D004-4E12-A35A-EF619047F798}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Spring.Extensions.Configuration.CloudFoundry.Server.IntegrationTest", "test\Spring.Extensions.Configuration.CloudFoundry.Server.IntegrationTest\Spring.Extensions.Configuration.CloudFoundry.Server.IntegrationTest.xproj", "{8D43B1B0-0C20-4AA5-B510-332E1190D0D4}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Pivotal.Extensions.Configuration.ConfigServer.ITest", "test\Pivotal.Extensions.Configuration.ConfigServer.ITest\Pivotal.Extensions.Configuration.ConfigServer.ITest.xproj", "{C1F2D0F6-22D6-4D7C-BFCF-A21C53EEC5ED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -28,35 +24,25 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{4A9D10C9-D365-41DD-9870-9D846A3D9EB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4A9D10C9-D365-41DD-9870-9D846A3D9EB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4A9D10C9-D365-41DD-9870-9D846A3D9EB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4A9D10C9-D365-41DD-9870-9D846A3D9EB1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9F29BED6-ECE3-42A2-8C57-C1A6831B9CF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9F29BED6-ECE3-42A2-8C57-C1A6831B9CF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9F29BED6-ECE3-42A2-8C57-C1A6831B9CF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9F29BED6-ECE3-42A2-8C57-C1A6831B9CF1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D06283B3-995E-4AC2-B45F-DF6A6C377699}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D06283B3-995E-4AC2-B45F-DF6A6C377699}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D06283B3-995E-4AC2-B45F-DF6A6C377699}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D06283B3-995E-4AC2-B45F-DF6A6C377699}.Release|Any CPU.Build.0 = Release|Any CPU
-		{ECCB52BE-A124-4213-95A3-0C4842AA55A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ECCB52BE-A124-4213-95A3-0C4842AA55A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ECCB52BE-A124-4213-95A3-0C4842AA55A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ECCB52BE-A124-4213-95A3-0C4842AA55A1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8D43B1B0-0C20-4AA5-B510-332E1190D0D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8D43B1B0-0C20-4AA5-B510-332E1190D0D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8D43B1B0-0C20-4AA5-B510-332E1190D0D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8D43B1B0-0C20-4AA5-B510-332E1190D0D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E81E7EE3-9978-474C-A89D-209C12E8A43F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E81E7EE3-9978-474C-A89D-209C12E8A43F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E81E7EE3-9978-474C-A89D-209C12E8A43F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E81E7EE3-9978-474C-A89D-209C12E8A43F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3CC992C1-D004-4E12-A35A-EF619047F798}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CC992C1-D004-4E12-A35A-EF619047F798}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CC992C1-D004-4E12-A35A-EF619047F798}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CC992C1-D004-4E12-A35A-EF619047F798}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1F2D0F6-22D6-4D7C-BFCF-A21C53EEC5ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1F2D0F6-22D6-4D7C-BFCF-A21C53EEC5ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1F2D0F6-22D6-4D7C-BFCF-A21C53EEC5ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1F2D0F6-22D6-4D7C-BFCF-A21C53EEC5ED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{4A9D10C9-D365-41DD-9870-9D846A3D9EB1} = {7B274640-7AFA-4329-973B-AFABB7AC765B}
-		{9F29BED6-ECE3-42A2-8C57-C1A6831B9CF1} = {5B6FDF64-9860-4155-BA05-D8901B818337}
-		{D06283B3-995E-4AC2-B45F-DF6A6C377699} = {7B274640-7AFA-4329-973B-AFABB7AC765B}
-		{ECCB52BE-A124-4213-95A3-0C4842AA55A1} = {5B6FDF64-9860-4155-BA05-D8901B818337}
-		{8D43B1B0-0C20-4AA5-B510-332E1190D0D4} = {5B6FDF64-9860-4155-BA05-D8901B818337}
+		{E81E7EE3-9978-474C-A89D-209C12E8A43F} = {7B274640-7AFA-4329-973B-AFABB7AC765B}
+		{3CC992C1-D004-4E12-A35A-EF619047F798} = {5B6FDF64-9860-4155-BA05-D8901B818337}
+		{C1F2D0F6-22D6-4D7C-BFCF-A21C53EEC5ED} = {5B6FDF64-9860-4155-BA05-D8901B818337}
 	EndGlobalSection
 EndGlobal

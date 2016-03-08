@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Razor.Runtime.TagHelpers;
 using Microsoft.AspNet.Razor.TagHelpers;
-using Spring.Extensions.Configuration.CloudFoundry;
+using SteelToe.Extensions.Configuration.CloudFoundry;
 using Microsoft.AspNet.Mvc.Rendering;
 
 namespace SimpleCloudFoundry.TagHelpers

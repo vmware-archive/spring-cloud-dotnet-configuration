@@ -1,8 +1,5 @@
-﻿using Spring.Extensions.Configuration.CloudFoundry;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using SteelToe.Extensions.Configuration.CloudFoundry;
+
 
 namespace SimpleCloudFoundry4.ViewModels
 {

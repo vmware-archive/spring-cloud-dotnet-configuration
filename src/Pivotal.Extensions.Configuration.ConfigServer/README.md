@@ -1,6 +1,6 @@
-# Spring Cloud Config .NET Configuration Provider
+# SCS Config Server .NET Configuration Provider
 
-This project contains the [Spring Cloud Services - Config Server](http://docs.pivotal.io/spring-cloud-services/config-server/) client configuration provider.  By acting as a client to the Spring Cloud Services - Config Server, this provider enables the Config Server to become a source of configuration data for a .NET application.  You can learn more about Cloud Native Applications and the Spring Cloud Services - Config Server at [Spring Cloud Services](http://docs.pivotal.io/spring-cloud-services/index.html).
+This project contains the [Spring Cloud Services - Config Server](http://docs.pivotal.io/spring-cloud-services/config-server/) client config provider.  By acting as a client to the Spring Cloud Services - Config Server, this provider enables the Config Server to become a source of configuration data for a .NET application.  You can learn more about Cloud Native Applications and the Spring Cloud Services - Config Server at [Spring Cloud Services](http://docs.pivotal.io/spring-cloud-services/index.html).
 
 ## Provider Package Name and Feeds
 
@@ -17,7 +17,7 @@ You should have a good understanding of how the new .NET [Configuration model](h
 
 In order to retrieve configuration data from the Config Server you need to do the following:
 ```
-1. Create and bind a services instance of the Config Server to your application.  
+1. Create and bind a service instance of the Config Server to your application.  
 2. Add the Confg Server provider to the Configuration builder.
 ``` 
 ## Configure and Bind & Add Provider to Builder
@@ -28,9 +28,9 @@ cf bind-service myApp config-server
 cf restage myApp
 
 ```
-Once you have bound the service to the app, the providers settings have setup in `VCAP_SERVICES` and will be picked up automatically when the app is started.
+Once you have bound the service to the app, the providers settings have been setup in `VCAP_SERVICES` and will be picked up automatically when the app is started.
 
-Next we add the Config Server provider to the builder (e.g. `AddConfigServer()`). 
+Next we add the Config Server provider to the builder (e.g. `AddConfigServer()`). Here is some sample code illustrating how this is done:
 ```
 #using Pivotal.Extensions.Configuration;
 ...

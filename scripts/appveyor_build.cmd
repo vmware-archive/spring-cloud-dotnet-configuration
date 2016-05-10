@@ -9,6 +9,7 @@ call node patch-project-json.js ../src/Pivotal.Extensions.Configuration.ConfigSe
 cd %APPVEYOR_BUILD_FOLDER%
 
 :: Restore packages
+type src\Pivotal.Extensions.Configuration.ConfigServer\project.json
 cd src
 call dnu restore
 cd ..\test

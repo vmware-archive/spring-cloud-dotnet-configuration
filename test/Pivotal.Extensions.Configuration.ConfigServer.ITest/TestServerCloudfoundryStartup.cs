@@ -15,12 +15,13 @@
 //
 
 
-using Microsoft.AspNet.Builder;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
-using Microsoft.AspNet.Hosting;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Pivotal.Extensions.Configuration.ConfigServer.Test;
+using System.IO;
 
 namespace Pivotal.Extensions.Configuration.ConfigServer.ITest
 {
@@ -43,8 +44,12 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.ITest
 }";
             logFactory.AddConsole(minLevel: LogLevel.Debug);
             var path = TestHelpers.CreateTempFile(appSettings);
-            var builder = new ConfigurationBuilder()
-                .AddJsonFile(path)
+            string directory = Path.GetDirectoryName(path);
+            string fileName = Path.GetFileName(path);
+            var builder = new ConfigurationBuilder();
+            builder.SetBasePath(directory);
+
+            builder.AddJsonFile(fileName)
                 .AddConfigServer(environment,logFactory);
             Configuration = builder.Build();
 

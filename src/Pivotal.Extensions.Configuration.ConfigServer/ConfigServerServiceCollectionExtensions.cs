@@ -52,7 +52,7 @@ namespace Pivotal.Extensions.Configuration
             }
             services.AddCloudFoundry(config);
             services.Configure<ConfigServerClientSettingsOptions>(config);
-            services.AddInstance<IConfigurationRoot>(config);
+            services.AddSingleton<IConfigurationRoot>(config);
             return services;
         }
     }

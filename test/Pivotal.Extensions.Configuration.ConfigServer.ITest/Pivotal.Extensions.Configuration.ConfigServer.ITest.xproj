@@ -9,7 +9,7 @@
     <ProjectGuid>c1f2d0f6-22d6-4d7c-bfcf-a21c53eec5ed</ProjectGuid>
     <RootNamespace>Pivotal.Extensions.Configuration.ConfigServer.ITest</RootNamespace>
     <BaseIntermediateOutputPath Condition="'$(BaseIntermediateOutputPath)'=='' ">..\..\artifacts\obj\$(MSBuildProjectName)</BaseIntermediateOutputPath>
-    <OutputPath Condition="'$(OutputPath)'=='' ">..\..\artifacts\bin\$(MSBuildProjectName)\</OutputPath>
+    <OutputPath Condition="'$(OutputPath)'=='' ">.\bin\</OutputPath>
   </PropertyGroup>
   <PropertyGroup>
     <SchemaVersion>2.0</SchemaVersion>

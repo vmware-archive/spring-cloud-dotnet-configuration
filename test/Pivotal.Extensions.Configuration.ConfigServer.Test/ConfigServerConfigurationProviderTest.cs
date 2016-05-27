@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-using Microsoft.AspNet.TestHost;
+using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -22,6 +22,8 @@ using System.Net.Http;
 using Xunit;
 using System.IO;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Hosting.Internal;
+using Microsoft.AspNetCore.Hosting;
 
 namespace Pivotal.Extensions.Configuration.ConfigServer.Test
 {
@@ -33,9 +35,10 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.Test
         {
             // Arrange
             ConfigServerClientSettings settings = null;
+            IHostingEnvironment env = new HostingEnvironment();
 
             // Act and Assert
-            var ex = Assert.Throws<ArgumentNullException>(() => new ConfigServerConfigurationProvider(settings));
+            var ex = Assert.Throws<ArgumentNullException>(() => new ConfigServerConfigurationProvider(settings, env));
             Assert.Contains(nameof(settings), ex.Message);
         }
 
@@ -44,10 +47,11 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.Test
         {
             // Arrange
             ConfigServerClientSettings settings = new ConfigServerClientSettings();
+            IHostingEnvironment env = new HostingEnvironment();
             HttpClient httpClient = null;
 
             // Act and Assert
-            var ex = Assert.Throws<ArgumentNullException>(() => new ConfigServerConfigurationProvider(settings, httpClient));
+            var ex = Assert.Throws<ArgumentNullException>(() => new ConfigServerConfigurationProvider(settings, httpClient, env));
             Assert.Contains(nameof(httpClient), ex.Message);
         }
 
@@ -56,18 +60,31 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.Test
         {
             // Arrange
             LoggerFactory logFactory = new LoggerFactory();
+            IHostingEnvironment envir = new HostingEnvironment();
             ConfigServerClientSettings settings = new ConfigServerClientSettings();
 
             // Act and Assert
-            var provider = new ConfigServerConfigurationProvider(settings, logFactory);
+            var provider = new ConfigServerConfigurationProvider(settings, envir, logFactory);
             Assert.NotNull(provider.Logger);
+        }
+        [Fact]
+        public void SettingsConstructor__ThrowsIfEnvironmentNull()
+        {
+            // Arrange
+            ConfigServerClientSettings settings = new ConfigServerClientSettings();
+            HttpClient httpClient = null;
+
+            // Act and Assert
+            var ex = Assert.Throws<ArgumentNullException>(() => new ConfigServerConfigurationProvider(settings, httpClient, null));
+            Assert.Contains(nameof(httpClient), ex.Message);
         }
 
         [Fact]
         public void DefaultConstructor_InitializedWithDefaultSettings()
         {
             // Arrange
-            ConfigServerConfigurationProvider provider = new ConfigServerConfigurationProvider();
+            IHostingEnvironment env = new HostingEnvironment();
+            ConfigServerConfigurationProvider provider = new ConfigServerConfigurationProvider(env);
 
             // Act and Assert
             TestHelpers.VerifyDefaults(provider.Settings);
@@ -78,6 +95,7 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.Test
         public void AddConfigServerClientSettings_ChangesDataDictionary()
         {
             // Arrange
+            IHostingEnvironment env = new HostingEnvironment();
             ConfigServerClientSettings settings = new ConfigServerClientSettings();
             settings.AccessTokenUri = "http://foo.bar/";
             settings.ClientId = "client_id";
@@ -91,7 +109,7 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.Test
             settings.Uri = "http://foo.bar/";
             settings.Username = "username";
             settings.ValidateCertificates = false;
-            ConfigServerConfigurationProvider provider = new ConfigServerConfigurationProvider(settings);
+            ConfigServerConfigurationProvider provider = new ConfigServerConfigurationProvider(settings, env);
 
 
             // Act and Assert

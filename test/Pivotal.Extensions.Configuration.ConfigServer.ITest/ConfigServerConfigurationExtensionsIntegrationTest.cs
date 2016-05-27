@@ -16,8 +16,8 @@
 
 
 using Xunit;
-using Microsoft.AspNet.TestHost;
-using Microsoft.AspNet.Hosting;
+using Microsoft.AspNetCore.TestHost;
+using Microsoft.AspNetCore.Hosting;
 
 namespace Pivotal.Extensions.Configuration.ConfigServer.ITest
 {
@@ -102,7 +102,7 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.ITest
                 string result = await client.GetStringAsync("http://localhost/Home/VerifyAsInjectedOptions");
 
                 Assert.Equal("spam" +
-                    "bar" +
+                    "barcelona" +
                     "Spring Cloud Samples" +
                     "https://github.com/spring-cloud-samples", result);
             }
@@ -171,7 +171,7 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.ITest
                 string result = await client.GetStringAsync("http://localhost/Home/VerifyAsInjectedOptions");
 
                 Assert.Equal("spam" +
-                    "bar" +
+                    "barcelona" +
                     "Spring Cloud Samples" +
                     "https://github.com/spring-cloud-samples", result);
             }

@@ -18,8 +18,8 @@ using System;
 using System.IO;
 
 using Xunit;
-using Microsoft.AspNet.Builder;
-using Microsoft.AspNet.Http;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 
 namespace Pivotal.Extensions.Configuration.ConfigServer.Test
 {

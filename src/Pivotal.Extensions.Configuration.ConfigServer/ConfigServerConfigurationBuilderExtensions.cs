@@ -16,15 +16,11 @@
 
 using System;
 using System.Collections.Generic;
-using Microsoft.AspNet.Hosting;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 using SteelToe.Extensions.Configuration.CloudFoundry;
-
-using STC = SteelToe.Extensions.Configuration;
-using STCS = SteelToe.Extensions.Configuration.ConfigServer;
-
 using Pivotal.Extensions.Configuration.ConfigServer;
 
 namespace Pivotal.Extensions.Configuration
@@ -34,14 +30,6 @@ namespace Pivotal.Extensions.Configuration
     /// </summary>
     public static class ConfigServerConfigurationBuilderExtensions
     {
-        private const string VCAP_SERVICES_CONFIGSERVER_PREFIX = "vcap:services:p-config-server:0";
-
-        /// <summary>
-        /// The prefix (<see cref="IConfigurationSection"/> under which all Spring Cloud Config Server 
-        /// configuration settings (<see cref="ConfigServerClientSettings"/> are found. 
-        ///   (e.g. spring:cloud:config:env, spring:cloud:config:uri, spring:cloud:config:enabled, etc.)
-        /// </summary>
-        public const string PREFIX = "spring:cloud:config";
 
         /// <summary>
         /// Adds the Spring Cloud Config Server provider <see cref="ConfigServerConfigurationProvider"/> 
@@ -75,104 +63,12 @@ namespace Pivotal.Extensions.Configuration
             {
                 throw new ArgumentNullException(nameof(environment));
             }
+
             configurationBuilder.Add(new CloudFoundryConfigurationProvider());
-            ConfigServerClientSettings settings = CreateSettings(environment, configurationBuilder.Providers, logFactory);
-            configurationBuilder.Add(new ConfigServerConfigurationProvider(settings, logFactory));
+            configurationBuilder.Add(new ConfigServerConfigurationProvider(new ConfigServerClientSettings(), environment, logFactory));
 
             return configurationBuilder;
 
-        }
-
-        private static ConfigServerClientSettings CreateSettings(IHostingEnvironment environment, IEnumerable<IConfigurationProvider> providers, ILoggerFactory logFactory)
-        {
-            ConfigServerClientSettings settings = new ConfigServerClientSettings();
-
-            if (providers != null)
-            {
-                ConfigurationRoot existing = new ConfigurationRoot(new List<IConfigurationProvider>(providers));
-                STCS.ConfigurationSettingsHelper.Initialize(PREFIX, settings, environment, existing);
-                InitializeCloudFoundry(settings, existing);
-
-            }
-   
-            return settings;
-
-        }
-
-        private static void InitializeCloudFoundry(ConfigServerClientSettings settings, ConfigurationRoot root)
-        {
-
-            var clientConfigsection = root.GetSection(PREFIX);
-
-            settings.Uri = ResovlePlaceholders(GetUri(clientConfigsection, root, settings.Uri), root);
-            settings.AccessTokenUri = ResovlePlaceholders(GetAccessTokenUri(clientConfigsection, root), root);
-            settings.ClientId = ResovlePlaceholders(GetClientId(clientConfigsection, root), root);
-            settings.ClientSecret = ResovlePlaceholders(GetClientSecret(clientConfigsection, root), root);
-
-        }
-
-        private static string GetUri(IConfigurationSection configServerSection, ConfigurationRoot root, string def)
-        {
-        
-            // Check for cloudfoundry binding vcap:services:p-config-server:0:credentials:uri
-            var vcapConfigServerSection = root.GetSection(VCAP_SERVICES_CONFIGSERVER_PREFIX);
-            var uri = vcapConfigServerSection["credentials:uri"];
-            if (!string.IsNullOrEmpty(uri))
-            {
-                return uri;
-            }
-
-            // Take default if none of above
-            return def;
-        }
-
-
-        private static string GetClientSecret(IConfigurationSection configServerSection, ConfigurationRoot root)
-        {
-            var vcapConfigServerSection = root.GetSection(VCAP_SERVICES_CONFIGSERVER_PREFIX);
-            return GetSetting("credentials:client_secret", configServerSection, vcapConfigServerSection,
-                ConfigServerClientSettings.DEFAULT_CLIENT_SECRET);
-
-        }
-
-        private static string GetClientId(IConfigurationSection configServerSection, ConfigurationRoot root)
-        {
-            var vcapConfigServerSection = root.GetSection(VCAP_SERVICES_CONFIGSERVER_PREFIX);
-            return GetSetting("credentials:client_id", configServerSection, vcapConfigServerSection,
-                ConfigServerClientSettings.DEFAULT_CLIENT_ID);
-
-        }
- 
-        private static string GetAccessTokenUri(IConfigurationSection configServerSection, ConfigurationRoot root)
-        {
-            var vcapConfigServerSection = root.GetSection(VCAP_SERVICES_CONFIGSERVER_PREFIX);
-            return GetSetting("credentials:access_token_uri", configServerSection, vcapConfigServerSection, 
-                ConfigServerClientSettings.DEFAULT_ACCESS_TOKEN_URI);
-
-        }
-
-        private static string ResovlePlaceholders(string property, IConfiguration config)
-        {
-            return STC.PropertyPlaceholderHelper.ResovlePlaceholders(property, config);
-        }
-
-        private static string GetSetting(string key, IConfigurationSection primary, IConfigurationSection secondary, string def)
-        {
-            // First check for key in primary
-            var setting = primary[key];
-            if (!string.IsNullOrEmpty(setting))
-            {
-                return setting;
-            }
-
-            // Next check for key in secondary
-            setting = secondary[key];
-            if (!string.IsNullOrEmpty(setting))
-            {
-                return setting;
-            }
-
-            return def;
         }
 
     }

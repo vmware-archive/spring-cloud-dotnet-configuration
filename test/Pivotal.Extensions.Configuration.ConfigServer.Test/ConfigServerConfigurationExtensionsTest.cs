@@ -18,7 +18,9 @@ using Microsoft.Extensions.Configuration;
 using Xunit;
 using System;
 using Microsoft.Extensions.Logging;
-using Microsoft.AspNet.Hosting;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Hosting.Internal;
+using System.IO;
 
 namespace Pivotal.Extensions.Configuration.ConfigServer.Test
 {
@@ -60,9 +62,9 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.Test
             configurationBuilder.AddConfigServer(environment);
 
             ConfigServerConfigurationProvider configServerProvider = null;
-            foreach (IConfigurationProvider provider in configurationBuilder.Providers)
+            foreach (IConfigurationProvider source in configurationBuilder.Sources)
             {
-                configServerProvider = provider as ConfigServerConfigurationProvider;
+                configServerProvider = source as ConfigServerConfigurationProvider;
                 if (configServerProvider != null)
                     break;
             }
@@ -82,9 +84,9 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.Test
             configurationBuilder.AddConfigServer(environment,loggerFactory);
 
             ConfigServerConfigurationProvider configServerProvider = null;
-            foreach (IConfigurationProvider provider in configurationBuilder.Providers)
+            foreach (IConfigurationProvider source in configurationBuilder.Sources)
             {
-                configServerProvider = provider as ConfigServerConfigurationProvider;
+                configServerProvider = source as ConfigServerConfigurationProvider;
                 if (configServerProvider != null)
                     break;
             }
@@ -118,17 +120,22 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.Test
 }";
 
             var path = TestHelpers.CreateTempFile(appsettings);
-            var configurationBuilder = new ConfigurationBuilder();
+            string directory = Path.GetDirectoryName(path);
+            string fileName = Path.GetFileName(path);
+            ConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
+            configurationBuilder.SetBasePath(directory);
+
             var environment = new HostingEnvironment();
-            configurationBuilder.AddJsonFile(path);
+            configurationBuilder.AddJsonFile(fileName);
 
             // Act and Assert
             configurationBuilder.AddConfigServer(environment);
+            IConfigurationRoot root = configurationBuilder.Build();
 
             ConfigServerConfigurationProvider configServerProvider = null;
-            foreach (IConfigurationProvider provider in configurationBuilder.Providers)
+            foreach (IConfigurationSource source in configurationBuilder.Sources)
             {
-                configServerProvider = provider as ConfigServerConfigurationProvider;
+                configServerProvider = source as ConfigServerConfigurationProvider;
                 if (configServerProvider != null)
                     break;
             }
@@ -170,17 +177,22 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.Test
     </spring>
 </settings>";
             var path = TestHelpers.CreateTempFile(appsettings);
-            var configurationBuilder = new ConfigurationBuilder();
+            string directory = Path.GetDirectoryName(path);
+            string fileName = Path.GetFileName(path);
+            ConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
+            configurationBuilder.SetBasePath(directory);
+
             var environment = new HostingEnvironment();
-            configurationBuilder.AddXmlFile(path);
+            configurationBuilder.AddXmlFile(fileName);
 
             // Act and Assert
             configurationBuilder.AddConfigServer(environment);
+            IConfigurationRoot root = configurationBuilder.Build();
 
             ConfigServerConfigurationProvider configServerProvider = null;
-            foreach (IConfigurationProvider provider in configurationBuilder.Providers)
+            foreach (IConfigurationSource source in configurationBuilder.Sources)
             {
-                configServerProvider = provider as ConfigServerConfigurationProvider;
+                configServerProvider = source as ConfigServerConfigurationProvider;
                 if (configServerProvider != null)
                     break;
             }
@@ -215,17 +227,22 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.Test
     password=myPassword
 ";
             var path = TestHelpers.CreateTempFile(appsettings);
-            var configurationBuilder = new ConfigurationBuilder();
+            string directory = Path.GetDirectoryName(path);
+            string fileName = Path.GetFileName(path);
+            ConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
+            configurationBuilder.SetBasePath(directory);
+            
             var environment = new HostingEnvironment();
-            configurationBuilder.AddIniFile(path);
+            configurationBuilder.AddIniFile(fileName);
 
             // Act and Assert
             configurationBuilder.AddConfigServer(environment);
+            IConfigurationRoot root = configurationBuilder.Build();
 
             ConfigServerConfigurationProvider configServerProvider = null;
-            foreach (IConfigurationProvider provider in configurationBuilder.Providers)
+            foreach (IConfigurationSource source in configurationBuilder.Sources)
             {
-                configServerProvider = provider as ConfigServerConfigurationProvider;
+                configServerProvider = source as ConfigServerConfigurationProvider;
                 if (configServerProvider != null)
                     break;
             }
@@ -268,11 +285,12 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.Test
 
             // Act and Assert
             configurationBuilder.AddConfigServer(environment);
+            IConfigurationRoot root = configurationBuilder.Build();
 
             ConfigServerConfigurationProvider configServerProvider = null;
-            foreach (IConfigurationProvider provider in configurationBuilder.Providers)
+            foreach (IConfigurationSource source in configurationBuilder.Sources)
             {
-                configServerProvider = provider as ConfigServerConfigurationProvider;
+                configServerProvider = source as ConfigServerConfigurationProvider;
                 if (configServerProvider != null)
                     break;
             }
@@ -323,17 +341,23 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.Test
 }";
 
             var path = TestHelpers.CreateTempFile(appsettings);
-            var configurationBuilder = new ConfigurationBuilder();
+            string directory = Path.GetDirectoryName(path);
+            string fileName = Path.GetFileName(path);
+            ConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
+            configurationBuilder.SetBasePath(directory);
+
+
             var environment = new HostingEnvironment();
-            configurationBuilder.AddJsonFile(path);
+            configurationBuilder.AddJsonFile(fileName);
 
             // Act and Assert
             configurationBuilder.AddConfigServer(environment);
+            IConfigurationRoot root = configurationBuilder.Build();
 
             ConfigServerConfigurationProvider configServerProvider = null;
-            foreach (IConfigurationProvider provider in configurationBuilder.Providers)
+            foreach (IConfigurationSource source in configurationBuilder.Sources)
             {
-                configServerProvider = provider as ConfigServerConfigurationProvider;
+                configServerProvider = source as ConfigServerConfigurationProvider;
                 if (configServerProvider != null)
                     break;
             }
@@ -420,16 +444,23 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.Test
         }
     }
 }";
-
+            var tempPath = Path.GetTempPath();
             var appsettingsPath = TestHelpers.CreateTempFile(appsettings);
+            string appsettingsfileName = Path.GetFileName(appsettingsPath);
+
             var vcapAppPath = TestHelpers.CreateTempFile(VCAP_APPLICATION);
+            string vcapAppfileName = Path.GetFileName(vcapAppPath);
+
             var vcapServicesPath = TestHelpers.CreateTempFile(VCAP_SERVICES);
+            string vcapServicesfileName = Path.GetFileName(vcapServicesPath);
+
             var environment = new HostingEnvironment();
 
             var configurationBuilder = new ConfigurationBuilder();
-            configurationBuilder.AddJsonFile(appsettingsPath);
-            configurationBuilder.AddJsonFile(vcapAppPath);
-            configurationBuilder.AddJsonFile(vcapServicesPath);
+            configurationBuilder.SetBasePath(tempPath);
+            configurationBuilder.AddJsonFile(appsettingsfileName);
+            configurationBuilder.AddJsonFile(vcapAppfileName);
+            configurationBuilder.AddJsonFile(vcapServicesfileName);
 
             // Act and Assert
             configurationBuilder.AddConfigServer(environment);
@@ -437,9 +468,9 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.Test
 
             // Find our provider so we can check settings
             ConfigServerConfigurationProvider configServerProvider = null;
-            foreach (IConfigurationProvider provider in configurationBuilder.Providers)
+            foreach (IConfigurationSource source in configurationBuilder.Sources)
             {
-                configServerProvider = provider as ConfigServerConfigurationProvider;
+                configServerProvider = source as ConfigServerConfigurationProvider;
                 if (configServerProvider != null)
                     break;
             }

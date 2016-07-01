@@ -1,4 +1,4 @@
-language: generic
+language: node_js
 sudo: required
 dist: trusty
 addons:
@@ -21,11 +21,6 @@ branches:
   only:
     - master
     - dev
-before install:
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update               ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install openssl      ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew link --force openssl ; fi
-
 script:
   - ./scripts/travis_install.sh
   - ./scripts/travis_build.sh

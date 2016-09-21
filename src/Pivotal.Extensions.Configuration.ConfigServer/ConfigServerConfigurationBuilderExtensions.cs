@@ -20,7 +20,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-using SteelToe.Extensions.Configuration.CloudFoundry;
+using Steeltoe.Extensions.Configuration.CloudFoundry;
 using Pivotal.Extensions.Configuration.ConfigServer;
 
 namespace Pivotal.Extensions.Configuration

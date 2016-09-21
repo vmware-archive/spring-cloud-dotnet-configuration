@@ -15,7 +15,7 @@
 //
 
 
-using ST = SteelToe.Extensions.Configuration.ConfigServer;
+using ST = Steeltoe.Extensions.Configuration.ConfigServer;
 
 namespace Pivotal.Extensions.Configuration.ConfigServer
 {

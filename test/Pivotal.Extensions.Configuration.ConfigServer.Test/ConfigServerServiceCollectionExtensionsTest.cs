@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using SteelToe.Extensions.Configuration.CloudFoundry;
+using Steeltoe.Extensions.Configuration.CloudFoundry;
 using System;
 
 using Xunit;

@@ -18,7 +18,7 @@ using System;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
-using SteelToe.Extensions.Configuration;
+using Steeltoe.Extensions.Configuration;
 using Pivotal.Extensions.Configuration.ConfigServer;
 
 namespace Pivotal.Extensions.Configuration

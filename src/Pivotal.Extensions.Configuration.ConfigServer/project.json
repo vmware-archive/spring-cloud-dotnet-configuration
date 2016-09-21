@@ -44,7 +44,7 @@
     "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0",
     "Microsoft.Extensions.PlatformAbstractions": "1.0.0",
     "Newtonsoft.Json": "9.0.1",
-    "Steeltoe.Extensions.Configuration.CloudFoundry": "1.0.0-*",
-    "Steeltoe.Extensions.Configuration.ConfigServer": "1.0.0-*"
+    "Steeltoe.Extensions.Configuration.CloudFoundry": "1.0.0-dev-*",
+    "Steeltoe.Extensions.Configuration.ConfigServer": "1.0.0-dev-*"
   }
 }

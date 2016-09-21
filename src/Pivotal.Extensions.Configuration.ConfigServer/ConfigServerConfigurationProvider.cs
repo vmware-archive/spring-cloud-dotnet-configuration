@@ -23,8 +23,8 @@ using Microsoft.Extensions.Logging;
 using System.Net.Http.Headers;
 using Newtonsoft.Json.Linq;
 using System.Net.Security;
-using ST = SteelToe.Extensions.Configuration.ConfigServer;
-using STC = SteelToe.Extensions.Configuration;
+using ST = Steeltoe.Extensions.Configuration.ConfigServer;
+using STC = Steeltoe.Extensions.Configuration;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 

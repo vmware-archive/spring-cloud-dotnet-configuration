@@ -40,8 +40,8 @@ jsonfile.readFile(file, function (err, project) {
     project.version = version;
 
     // Patch dependencies
-    project.dependencies['SteelToe.Extensions.Configuration.CloudFoundry'] = dependsVersion;
-    project.dependencies['SteelToe.Extensions.Configuration.ConfigServer'] = dependsVersion;    
+    project.dependencies['Steeltoe.Extensions.Configuration.CloudFoundry'] = dependsVersion;
+    project.dependencies['Steeltoe.Extensions.Configuration.ConfigServer'] = dependsVersion;    
 
     jsonfile.writeFile(file, project, {spaces: 2}, function(err) {
         if (err)

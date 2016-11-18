@@ -13,12 +13,11 @@ Linux/OSX Master: [![Travis Master](https://travis-ci.org/pivotal-cf/spring-clou
 Linux/OSX Dev: [![Travis Dev](https://travis-ci.org/pivotal-cf/spring-cloud-dotnet-configuration.svg?branch=dev)](https://travis-ci.org/pivotal-cf/spring-cloud-dotnet-configuration)
 
 # .NET Runtime & Framework Support
-Like ASP.NET Core, the providers are intended to support both .NET 4.5.1+ and .NET Core (CoreCLR/CoreFX) runtimes.  The providers are built and unit tested on Windows, Linux and OSX.
+Like the ASP.NET Core configuration providers, these providers are intended to support both .NET 4.5.1+ and .NET Core (CoreCLR/CoreFX) runtimes.  The providers are built and unit tested on Windows, Linux and OSX.
 
 While the primary usage of the providers is intended to be with ASP.NET Core applications, they should also work fine with UWP, Console and ASP.NET 4.x apps. An ASP.NET 4.x sample app is available illustrating how this can be done.
 
-Currently all of the code and samples have been tested on .NET Core 1.0.0-RC2/SDK Preview 1, .NET 4.5.1, and on ASP.NET Core 1.0.0-RC2-final.
-
+Currently all of the code and samples have been tested on .NET Core 1.1, .NET 4.5.1/4.6.x, and on ASP.NET Core 1.1.0.
 # Usage
 See the Readme for the provider for more details on how to make use of it in an application.
 
@@ -31,22 +30,28 @@ All new configuration provider development is done on the dev branch. More stabl
 
 [Release or Release Candidate feed](https://www.nuget.org/) - https://www.nuget.org/. 
 
+# Building Pre-requisites
+To build and run the unit tests:
+
+1. .NET Core SDK 1.0.1 or greater
+2. .NET Core Runtime 1.1
+
 # Building Packages & Running Tests - Windows
 To build the packages on windows:
 
 1. git clone ...
-2. cd <clone directory>
+2. cd clone directory
 3. Install .NET Core SDK
 4. dotnet restore src
 5. cd src\<project> (e.g. cd src\Pivotal.Extensions.Configuration.ConfigServer)
-6. dotnet pack --configuration <Release or Debug> 
+6. dotnet pack --configuration Release or Debug
 
 The resulting artifacts can be found in the bin folder under the corresponding project. (e.g. src\Pivotal.Extensions.Configuration.ConfigServer\bin
 
 To run the unit tests:
 
 1. git clone ...
-2. cd <clone directory>
+2. cd clone directory
 3. Install .NET Core SDK 
 4. dotnet restore test
 5. cd test\<test project> (e.g. cd test\Pivotal.Extensions.Configuration.ConfigServer.Test)
@@ -56,22 +61,22 @@ To run the unit tests:
 To build the packages on Linux/OSX:
 
 1. git clone ...
-2. cd <clone directory>
+2. cd clone directory
 3. Install .NET Core SDK
 4. dotnet restore src
 5. cd src/<project> (e.g.. cd src/Pivotal.Extensions.Configuration.ConfigServer)
-6. dotnet pack --configuration <Release or Debug> 
+6. dotnet pack --configuration Release or Debug 
 
 The resulting artifacts can be found in the bin folder under the corresponding project. (e.g. src/Pivotal.Extensions.Configuration.ConfigServer/bin
 
 To run the unit tests:
 
 1. git clone ...
-2. cd <clone directory>
+2. cd clone directory
 3. Install .NET Core SDK 
 4. dotnet restore test
 5. cd test\<test project> (e.g. cd test/Pivotal.Extensions.Configuration.ConfigServer.Test)
-6. dotnet test --framework netcoreapp1.0
+6. dotnet test --framework netcoreapp1.1
 
 # Sample Applications
 See the [Samples](https://github.com/SteelToeOSS/Samples) repo for examples of how to use these packages.

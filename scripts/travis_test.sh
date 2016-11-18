@@ -4,6 +4,6 @@ export PATH="$DOTNET_INSTALL_DIR:$PATH"
 
 # Run unit tests 
 cd test/Pivotal.Extensions.Configuration.ConfigServer.Test
-dotnet test --framework netcoreapp1.0
+dotnet test --framework netcoreapp1.1
 cd ../..
 

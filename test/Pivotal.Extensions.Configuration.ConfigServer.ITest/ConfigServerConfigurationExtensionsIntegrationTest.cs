@@ -102,7 +102,7 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.ITest
                 string result = await client.GetStringAsync("http://localhost/Home/VerifyAsInjectedOptions");
 
                 Assert.Equal("spam" +
-                    "barcelona" +
+                    "from foo development" +
                     "Spring Cloud Samples" +
                     "https://github.com/spring-cloud-samples", result);
             }

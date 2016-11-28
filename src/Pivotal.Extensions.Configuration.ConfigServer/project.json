@@ -21,12 +21,14 @@
   },
   "frameworks": {
     "net451": {
-          "System.Net.Http": "4.0.0"
+      "dependencies": {
+        "System.Net.Http": "4.0.0"
+      }
     },
     "netstandard1.3": {
       "dependencies": {
-        "System.Net.Http.WinHttpHandler": "4.0.0",
-        "System.Net.Http": "4.1.0"
+        "System.Net.Http.WinHttpHandler": "4.3.0",
+        "System.Net.Http": "4.3.0"
       },
       "imports": [
         "portable-net451+win8"
@@ -34,7 +36,6 @@
     }
   },
   "dependencies": {
-
     "Microsoft.AspNetCore.Hosting.Abstractions": "1.0.0",
     "Microsoft.Extensions.Configuration": "1.0.0",
     "Microsoft.Extensions.Configuration.FileExtensions": "1.0.0",

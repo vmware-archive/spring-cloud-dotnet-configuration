@@ -143,6 +143,57 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.Test
             Assert.Equal("False", value);
 
         }
+        
+        [Fact]
+        public void GetConfigServerUri_WithExtraPathInfo()
+        {
+            // Arrange
+            IHostingEnvironment env = new HostingEnvironment();
+            ConfigServerClientSettings settings = new ConfigServerClientSettings() { Uri = "http://localhost:9999/myPath/path/", Name = "myName", Environment = "Production" };
+            ConfigServerConfigurationProvider provider = new ConfigServerConfigurationProvider(settings, env);
+
+            // Act and Assert
+            string path = provider.GetConfigServerUri(null);
+            Assert.Equal("http://localhost:9999/myPath/path/" + settings.Name + "/" + settings.Environment, path);
+        }
+
+        [Fact]
+        public void GetConfigServerUri_WithExtraPathInfo_NoEndingSlash()
+        {
+            // Arrange
+            IHostingEnvironment env = new HostingEnvironment();
+            ConfigServerClientSettings settings = new ConfigServerClientSettings() { Uri = "http://localhost:9999/myPath/path", Name = "myName", Environment = "Production" };
+            ConfigServerConfigurationProvider provider = new ConfigServerConfigurationProvider(settings, env);
+
+            // Act and Assert
+            string path = provider.GetConfigServerUri(null);
+            Assert.Equal("http://localhost:9999/myPath/path/" + settings.Name + "/" + settings.Environment, path);
+        }
+
+        [Fact]
+        public void GetConfigServerUri_NoEndingSlash()
+        {
+            // Arrange
+            IHostingEnvironment env = new HostingEnvironment();
+            ConfigServerClientSettings settings = new ConfigServerClientSettings() { Uri = "http://localhost:9999", Name = "myName", Environment = "Production" };
+            ConfigServerConfigurationProvider provider = new ConfigServerConfigurationProvider(settings, env);
+
+            // Act and Assert
+            string path = provider.GetConfigServerUri(null);
+            Assert.Equal("http://localhost:9999/" + settings.Name + "/" + settings.Environment, path);
+        }
+        [Fact]
+        public void GetConfigServerUri_WithEndingSlash()
+        {
+            // Arrange
+            IHostingEnvironment env = new HostingEnvironment();
+            ConfigServerClientSettings settings = new ConfigServerClientSettings() { Uri = "http://localhost:9999/", Name = "myName", Environment = "Production" };
+            ConfigServerConfigurationProvider provider = new ConfigServerConfigurationProvider(settings, env);
+
+            // Act and Assert
+            string path = provider.GetConfigServerUri(null);
+            Assert.Equal("http://localhost:9999/" + settings.Name + "/" + settings.Environment, path);
+        }
 
     }
 }

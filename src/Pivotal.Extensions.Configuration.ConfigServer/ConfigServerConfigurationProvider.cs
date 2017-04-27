@@ -122,7 +122,7 @@ namespace Pivotal.Extensions.Configuration.ConfigServer
         {
             var request = new HttpRequestMessage(HttpMethod.Post, Settings.AccessTokenUri);
             HttpClient client = GetHttpClient(Settings);
-#if NET46
+#if NET452
             RemoteCertificateValidationCallback prevValidator = null;
             if (!Settings.ValidateCertificates)
             {
@@ -162,7 +162,7 @@ namespace Pivotal.Extensions.Configuration.ConfigServer
             {
                 _logger?.LogError("Config Server exception: {0} ,obtaining access token from: {1}", e, Settings.AccessTokenUri);
             }
-#if NET46
+#if NET452
             finally
             {
                 ServicePointManager.ServerCertificateValidationCallback = prevValidator;

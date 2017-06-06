@@ -33,7 +33,7 @@ All new configuration provider development is done on the dev branch. More stabl
 # Building Pre-requisites
 To build and run the unit tests:
 
-1. .NET Core SDK 1.0.1 or greater
+1. .NET Core SDK 1.0.4 or greater
 2. .NET Core Runtime 1.1
 
 # Building Packages & Running Tests - Windows
@@ -43,7 +43,7 @@ To build the packages on windows:
 2. cd clone directory
 3. Install .NET Core SDK
 4. dotnet restore src
-5. cd src\<project> (e.g. cd src\Pivotal.Extensions.Configuration.ConfigServer)
+5. cd src\project (e.g. cd src\Pivotal.Extensions.Configuration.ConfigServer)
 6. dotnet pack --configuration Release or Debug
 
 The resulting artifacts can be found in the bin folder under the corresponding project. (e.g. src\Pivotal.Extensions.Configuration.ConfigServer\bin
@@ -54,8 +54,8 @@ To run the unit tests:
 2. cd clone directory
 3. Install .NET Core SDK 
 4. dotnet restore test
-5. cd test\<test project> (e.g. cd test\Pivotal.Extensions.Configuration.ConfigServer.Test)
-6. dotnet test
+5. cd test\test project (e.g. cd test\Pivotal.Extensions.Configuration.ConfigServer.Test)
+6. dotnet xunit -verbose
 
 # Building Packages & Running Tests - Linux/OSX
 To build the packages on Linux/OSX:
@@ -64,7 +64,7 @@ To build the packages on Linux/OSX:
 2. cd clone directory
 3. Install .NET Core SDK
 4. dotnet restore src
-5. cd src/<project> (e.g.. cd src/Pivotal.Extensions.Configuration.ConfigServer)
+5. cd src/project (e.g.. cd src/Pivotal.Extensions.Configuration.ConfigServer)
 6. dotnet pack --configuration Release or Debug 
 
 The resulting artifacts can be found in the bin folder under the corresponding project. (e.g. src/Pivotal.Extensions.Configuration.ConfigServer/bin
@@ -75,8 +75,8 @@ To run the unit tests:
 2. cd clone directory
 3. Install .NET Core SDK 
 4. dotnet restore test
-5. cd test\<test project> (e.g. cd test/Pivotal.Extensions.Configuration.ConfigServer.Test)
-6. dotnet test --framework netcoreapp1.1
+5. cd test\test project (e.g. cd test/Pivotal.Extensions.Configuration.ConfigServer.Test)
+6. dotnet xunit -verbose -framework netcoreapp1.1
 
 # Sample Applications
 See the [Samples](https://github.com/SteelToeOSS/Samples) repo for examples of how to use these packages.

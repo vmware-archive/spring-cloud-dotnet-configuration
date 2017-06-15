@@ -89,6 +89,89 @@ namespace Pivotal.Extensions.Configuration.ConfigServer
             }
 
         }
+        public bool RetryEnabled
+        {
+            get
+            {
+
+                return GetBoolean(Spring?.Cloud?.Config?.Retry?.Enabled,
+                    ConfigServerClientSettings.DEFAULT_RETRY_ENABLED);
+            }
+        }
+
+        public int RetryInitialInterval
+        {
+            get
+            {
+                return GetInt(Spring?.Cloud?.Config?.Retry?.InitialInterval,
+               ConfigServerClientSettings.DEFAULT_INITIAL_RETRY_INTERVAL);
+            }
+        }
+
+
+        public int RetryMaxInterval
+        {
+            get
+            {
+                return GetInt(Spring?.Cloud?.Config?.Retry?.MaxInterval,
+               ConfigServerClientSettings.DEFAULT_MAX_RETRY_INTERVAL);
+            }
+        }
+
+        public double RetryMultiplier
+        {
+            get
+            {
+                return GetDouble(Spring?.Cloud?.Config?.Retry?.Multiplier,
+               ConfigServerClientSettings.DEFAULT_RETRY_MULTIPLIER);
+            }
+        }
+
+        public int RetryAttempts
+        {
+            get
+            {
+                return GetInt(Spring?.Cloud?.Config?.Retry?.MaxAttempts,
+               ConfigServerClientSettings.DEFAULT_MAX_RETRY_ATTEMPTS);
+            }
+        }
+
+        public string Token
+        {
+            get
+            {
+                return Spring?.Cloud?.Config?.Token;
+            }
+        }
+
+        public int TokenTtl
+        {
+            get
+            {
+                return GetInt(Spring?.Cloud?.Config?.TokenTtl,
+                ConfigServerClientSettings.DEFAULT_VAULT_TOKEN_TTL);
+
+            }
+        }
+
+
+        public int TokenRenewRate
+        {
+            get
+            {
+                return GetInt(Spring?.Cloud?.Config?.TokenRenewRate,
+                        ConfigServerClientSettings.DEFAULT_VAULT_TOKEN_RENEW_RATE);
+            }
+        }
+        public int Timeout
+        {
+            get
+            {
+                return GetInt(Spring?.Cloud?.Config?.Timeout,
+                    ConfigServerClientSettings.DEFAULT_TIMEOUT_MILLISECONDS);
+            }
+        }
+
         public string AccessTokenUri
         {
             get
@@ -119,12 +202,29 @@ namespace Pivotal.Extensions.Configuration.ConfigServer
             get
             {
                 ConfigServerClientSettings settings = new ConfigServerClientSettings();
-                settings.Enabled = GetBoolean(Spring?.Cloud?.Config?.Enabled, 
+
+                settings.Enabled = GetBoolean(Spring?.Cloud?.Config?.Enabled,
                     ConfigServerClientSettings.DEFAULT_PROVIDER_ENABLED);
                 settings.FailFast = GetBoolean(Spring?.Cloud?.Config?.FailFast,
                     ConfigServerClientSettings.DEFAULT_FAILFAST);
                 settings.ValidateCertificates = GetBoolean(Spring?.Cloud?.Config?.Validate_Certificates,
-                 ConfigServerClientSettings.DEFAULT_CERTIFICATE_VALIDATION);
+                     ConfigServerClientSettings.DEFAULT_CERTIFICATE_VALIDATION);
+                settings.RetryAttempts = GetInt(Spring?.Cloud?.Config?.Retry?.MaxAttempts,
+                    ConfigServerClientSettings.DEFAULT_MAX_RETRY_ATTEMPTS);
+                settings.RetryEnabled = GetBoolean(Spring?.Cloud?.Config?.Retry?.Enabled,
+                     ConfigServerClientSettings.DEFAULT_RETRY_ENABLED);
+                settings.RetryInitialInterval = GetInt(Spring?.Cloud?.Config?.Retry?.InitialInterval,
+                    ConfigServerClientSettings.DEFAULT_INITIAL_RETRY_INTERVAL);
+                settings.RetryMaxInterval = GetInt(Spring?.Cloud?.Config?.Retry?.MaxInterval,
+                    ConfigServerClientSettings.DEFAULT_MAX_RETRY_INTERVAL);
+                settings.RetryMultiplier = GetDouble(Spring?.Cloud?.Config?.Retry?.Multiplier,
+                    ConfigServerClientSettings.DEFAULT_RETRY_MULTIPLIER);
+                settings.Timeout = GetInt(Spring?.Cloud?.Config?.Timeout,
+                    ConfigServerClientSettings.DEFAULT_TIMEOUT_MILLISECONDS);
+                settings.TokenTtl = GetInt(Spring?.Cloud?.Config?.TokenTtl,
+                   ConfigServerClientSettings.DEFAULT_VAULT_TOKEN_TTL);
+                settings.TokenRenewRate = GetInt(Spring?.Cloud?.Config?.TokenRenewRate,
+                    ConfigServerClientSettings.DEFAULT_VAULT_TOKEN_RENEW_RATE);
 
                 settings.Environment = Spring?.Cloud?.Config?.Env;
                 settings.Label = Spring?.Cloud?.Config?.Label;
@@ -132,9 +232,11 @@ namespace Pivotal.Extensions.Configuration.ConfigServer
                 settings.Password = Spring?.Cloud?.Config?.Password;
                 settings.Uri = Spring?.Cloud?.Config?.Uri;
                 settings.Username = Spring?.Cloud?.Config?.Username;
+                settings.Token = Spring?.Cloud?.Config?.Token;
                 settings.AccessTokenUri = Spring?.Cloud?.Config?.Access_Token_Uri;
                 settings.ClientSecret = Spring?.Cloud?.Config?.Client_Secret;
                 settings.ClientId = Spring?.Cloud?.Config?.Client_Id;
+
 
                 return settings;
             }
@@ -151,6 +253,25 @@ namespace Pivotal.Extensions.Configuration.ConfigServer
             }
             return result;
         }
+
+        private int GetInt(string strValue, int def)
+        {
+            int result = def;
+            if (!string.IsNullOrEmpty(strValue))
+            {
+                int.TryParse(strValue, out result);
+            }
+            return result;
+        }
+        private double GetDouble(string strValue, double def)
+        {
+            double result = def;
+            if (!string.IsNullOrEmpty(strValue))
+            {
+                double.TryParse(strValue, out result);
+            }
+            return result;
+        }
     }
 
     public class SpringConfigCloudFoundry
@@ -163,12 +284,17 @@ namespace Pivotal.Extensions.Configuration.ConfigServer
     }
     public class SpringCloudConfigCloudFoundry
     {
+        public SpringCloudConfigCloudFoundryRetry Retry { get; set; }
         public string Enabled { get; set; }
         public string FailFast { get; set; }
         public string Env { get; set; }
         public string Label { get; set; }
         public string Name { get; set;  }
         public string Password { get; set; }
+        public string Token { get; set; }
+        public string TokenTtl { get; set; }
+        public string TokenRenewRate { get; set; }
+        public string Timeout { get; set; }
         public string Uri { get; set; }
         public string Username { get; set; }
         public string Access_Token_Uri { get; set; }
@@ -176,5 +302,13 @@ namespace Pivotal.Extensions.Configuration.ConfigServer
         public string Client_Id { get; set; }
         public string Validate_Certificates { get; set; }
 
+    }
+    public class SpringCloudConfigCloudFoundryRetry
+    {
+        public string Enabled { get; set; }
+        public string InitialInterval { get; set; }
+        public string MaxInterval { get; set; }
+        public string Multiplier { get; set; }
+        public string MaxAttempts { get; set; }
     }
 }

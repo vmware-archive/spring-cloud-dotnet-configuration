@@ -27,6 +27,8 @@ using ST = Steeltoe.Extensions.Configuration.ConfigServer;
 using STC = Steeltoe.Extensions.Configuration;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using System.Threading;
+using System.Text;
 
 namespace Pivotal.Extensions.Configuration.ConfigServer
 {
@@ -36,6 +38,11 @@ namespace Pivotal.Extensions.Configuration.ConfigServer
     public class ConfigServerConfigurationProvider : ST.ConfigServerConfigurationProvider
     {
         private const string VCAP_SERVICES_CONFIGSERVER_PREFIX = "vcap:services:p-config-server:0";
+        private const string VAULT_RENEW_PATH = "vault/v1/auth/token/renew-self";
+        private const string VAULT_TOKEN_HEADER = "X-Vault-Token";
+
+        private Timer tokenRenewTimer;
+      
 
         /// <summary>
         /// Initializes a new instance of <see cref="ConfigServerConfigurationProvider"/> with default
@@ -182,6 +189,8 @@ namespace Pivotal.Extensions.Configuration.ConfigServer
             Data["spring:cloud:config:client_secret"] = Settings.ClientSecret;
             Data["spring:cloud:config:client_id"] = Settings.ClientId;
             Data["spring:cloud:config:uri"] = Settings.Uri;
+            Data["spring:cloud:config:tokenTtl"] = Settings.TokenTtl.ToString();
+            Data["spring:cloud:config:tokenRenewRate"] = Settings.TokenRenewRate.ToString();
 
         }
         public override IConfigurationProvider Build(IConfigurationBuilder builder)
@@ -200,6 +209,105 @@ namespace Pivotal.Extensions.Configuration.ConfigServer
             InitializeCloudFoundry(Settings, existing);
             return this;
         }
+
+        protected override void RenewToken(string token)
+        {
+            if (tokenRenewTimer == null)
+            {
+                tokenRenewTimer = new Timer(this.RefreshVaultTokenAsync, null, 
+                    TimeSpan.FromMilliseconds(Settings.TokenRenewRate), TimeSpan.FromMilliseconds(Settings.TokenRenewRate));
+            }
+        }
+
+
+        internal protected virtual string GetVaultRenewUri()
+        {
+            var rawUri = Settings.RawUri;
+            if (!rawUri.EndsWith("/"))
+                rawUri = rawUri + "/";
+
+            return rawUri + VAULT_RENEW_PATH;
+
+        }
+
+        internal protected virtual HttpRequestMessage GetValutRenewMessage(string requestUri)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Post, requestUri);
+
+            if (!string.IsNullOrEmpty(Settings.AccessTokenUri))
+            {
+                Task<string> task = GetAccessToken();
+                task.Wait();
+
+                var accessToken = task.Result;
+                if (accessToken != null)
+                {
+                    AuthenticationHeaderValue auth = new AuthenticationHeaderValue("Bearer", accessToken);
+                    request.Headers.Authorization = auth;
+                }
+            }
+            if (!string.IsNullOrEmpty(Settings.Token))
+            {
+                request.Headers.Add(VAULT_TOKEN_HEADER, Settings.Token);
+            }
+
+            int renewTtlSeconds = Settings.TokenTtl / 1000;
+            string json = "{\"increment\":" + renewTtlSeconds.ToString() + "}";
+
+            StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+            request.Content = content;
+            return request;
+        }
+
+
+
+        internal protected virtual async void RefreshVaultTokenAsync(object state)
+        {
+            if (string.IsNullOrEmpty(Settings.Token))
+                return;
+
+            var obscuredToken = Settings.Token.Substring(0, 4) + "[*]" + Settings.Token.Substring(Settings.Token.Length - 4);
+#if NET452
+            RemoteCertificateValidationCallback prevValidator = null;
+            if (!Settings.ValidateCertificates)
+            {
+                prevValidator = ServicePointManager.ServerCertificateValidationCallback;
+                ServicePointManager.ServerCertificateValidationCallback = (sender, cert, chain, sslPolicyErrors) => true;
+            }
+#endif      
+            HttpClient client = null;
+            try
+            {
+                client = GetHttpClient(Settings);
+
+                var uri = GetVaultRenewUri();
+                var message = GetValutRenewMessage(uri);
+              
+
+                _logger?.LogInformation("Renewing Vault token {0} for {1} milliseconds at Uri {2}", obscuredToken, Settings.TokenTtl, uri);
+
+                using (HttpResponseMessage response = await client.SendAsync(message))
+                {
+                   if (response.StatusCode != HttpStatusCode.OK)
+                    {
+                        _logger?.LogWarning("Renewing Vault token {0} returned status: {1}", obscuredToken, response.StatusCode);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                _logger?.LogError("Unable to renew Vault token {0}. Is the token invalid or expired? - {1}", obscuredToken, e);
+
+            } finally
+            {
+                client.Dispose();
+#if NET452
+                ServicePointManager.ServerCertificateValidationCallback = prevValidator;
+#endif
+            }
+        }
+
+
         private static void InitializeCloudFoundry(ConfigServerClientSettings settings, IConfigurationRoot root)
         {
 
@@ -209,7 +317,8 @@ namespace Pivotal.Extensions.Configuration.ConfigServer
             settings.AccessTokenUri = ResovlePlaceholders(GetAccessTokenUri(clientConfigsection, root), root);
             settings.ClientId = ResovlePlaceholders(GetClientId(clientConfigsection, root), root);
             settings.ClientSecret = ResovlePlaceholders(GetClientSecret(clientConfigsection, root), root);
-
+            settings.TokenRenewRate = GetTokenRenewRate(clientConfigsection);
+            settings.TokenTtl = GetTokenTtl(clientConfigsection);
         }
 
         private static string GetUri(IConfigurationSection configServerSection, IConfigurationRoot root, string def)
@@ -227,6 +336,17 @@ namespace Pivotal.Extensions.Configuration.ConfigServer
             return def;
         }
 
+        private static int GetTokenRenewRate(IConfigurationSection configServerSection)
+        {
+            return GetInt("tokenRenewRate", configServerSection,  ConfigServerClientSettings.DEFAULT_VAULT_TOKEN_RENEW_RATE);
+
+        }
+
+        private static int GetTokenTtl(IConfigurationSection configServerSection)
+        {
+            return GetInt("tokenTtl", configServerSection, ConfigServerClientSettings.DEFAULT_VAULT_TOKEN_TTL);
+
+        }
 
         private static string GetClientSecret(IConfigurationSection configServerSection, IConfigurationRoot root)
         {
@@ -273,6 +393,18 @@ namespace Pivotal.Extensions.Configuration.ConfigServer
                 return setting;
             }
 
+            return def;
+        }
+
+        private static int GetInt(string key, IConfigurationSection clientConfigsection, int def)
+        {
+            var val = clientConfigsection[key];
+            if (!string.IsNullOrEmpty(val))
+            {
+                int result;
+                if (int.TryParse(val, out result))
+                    return result;
+            }
             return def;
         }
     }

@@ -113,7 +113,18 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.Test
             'failFast': false,
             'label': 'myLabel',
             'username': 'myUsername',
-            'password': 'myPassword'
+            'password': 'myPassword',
+            'timeout': 10000,
+            'token' : 'vaulttoken',
+            'tokenRenewRate': 50000,
+            'tokenTtl': 50000,
+            'retry': {
+                'enabled':'false',
+                'initialInterval':55555,
+                'maxInterval': 55555,
+                'multiplier': 5.5,
+                'maxAttempts': 55555
+            }
         }
       }
     }
@@ -150,9 +161,18 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.Test
             Assert.Equal("myLabel", settings.Label);
             Assert.Equal("myUsername", settings.Username);
             Assert.Equal("myPassword", settings.Password);
+            Assert.False(settings.RetryEnabled);
+            Assert.Equal(55555, settings.RetryAttempts);
+            Assert.Equal(55555, settings.RetryInitialInterval);
+            Assert.Equal(55555, settings.RetryMaxInterval);
+            Assert.Equal(5.5, settings.RetryMultiplier);
+            Assert.Equal(10000, settings.Timeout);
+            Assert.Equal("vaulttoken", settings.Token);
             Assert.Null(settings.AccessTokenUri);
             Assert.Null(settings.ClientId);
             Assert.Null(settings.ClientSecret);
+            Assert.Equal(50000, settings.TokenRenewRate);
+            Assert.Equal(50000, settings.TokenTtl);
         }
 
 

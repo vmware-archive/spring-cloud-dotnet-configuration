@@ -25,6 +25,8 @@ namespace Pivotal.Extensions.Configuration.ConfigServer
     /// </summary>
     public class ConfigServerClientSettings : ST.ConfigServerClientSettings
     {
+        public const int DEFAULT_VAULT_TOKEN_TTL = 300000;
+        public const int DEFAULT_VAULT_TOKEN_RENEW_RATE = 60000;
 
         /// <summary>
         /// Default address used by provider to obtain a OAuth Access Token 
@@ -57,8 +59,15 @@ namespace Pivotal.Extensions.Configuration.ConfigServer
         public string ClientSecret { get; set; } = DEFAULT_CLIENT_SECRET;
 
         /// <summary>
-        /// Enables/Disables whether provider validates server certificates
+        /// Vault token Time to Live setting in Millisecoonds
         /// </summary>
+        public int TokenTtl { get; set; } = DEFAULT_VAULT_TOKEN_TTL;
+
+        /// <summary>
+        /// Vault token renew rate in Milliseconds
+        /// </summary>
+        public int TokenRenewRate { get; set; } = DEFAULT_VAULT_TOKEN_RENEW_RATE;
+
 
         /// <summary>
         /// Initialize Config Server client settings with defaults
@@ -70,8 +79,15 @@ namespace Pivotal.Extensions.Configuration.ConfigServer
             Environment = DEFAULT_ENVIRONMENT;
             Enabled = DEFAULT_PROVIDER_ENABLED;
             Uri = DEFAULT_URI;
+            RetryEnabled = DEFAULT_RETRY_ENABLED;
+            RetryInitialInterval = DEFAULT_INITIAL_RETRY_INTERVAL;
+            RetryMaxInterval = DEFAULT_MAX_RETRY_INTERVAL;
+            RetryAttempts = DEFAULT_MAX_RETRY_ATTEMPTS;
+            RetryMultiplier = DEFAULT_RETRY_MULTIPLIER;
+            Timeout = DEFAULT_TIMEOUT_MILLISECONDS;
         }
 
     }
+
 }
 

@@ -109,6 +109,9 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.Test
             settings.Uri = "http://foo.bar/";
             settings.Username = "username";
             settings.ValidateCertificates = false;
+            settings.Token = "vaulttoken";
+            settings.TokenRenewRate = 1;
+            settings.TokenTtl = 2;
             ConfigServerConfigurationProvider provider = new ConfigServerConfigurationProvider(settings, env);
 
 
@@ -141,6 +144,14 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.Test
             Assert.Equal("False", value);
             Assert.True(provider.TryGet("spring:cloud:config:validate_certificates", out value));
             Assert.Equal("False", value);
+            Assert.True(provider.TryGet("spring:cloud:config:token", out value));
+            Assert.Equal("vaulttoken", value);
+            Assert.True(provider.TryGet("spring:cloud:config:timeout", out value));
+            Assert.Equal("3000", value);
+            Assert.True(provider.TryGet("spring:cloud:config:tokenRenewRate", out value));
+            Assert.Equal("1", value);
+            Assert.True(provider.TryGet("spring:cloud:config:tokenTtl", out value));
+            Assert.Equal("2", value);
 
         }
         

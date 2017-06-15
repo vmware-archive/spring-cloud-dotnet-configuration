@@ -51,11 +51,19 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.Test
             Assert.Equal(ConfigServerClientSettings.DEFAULT_CLIENT_ID, options.ClientId);
             Assert.Equal(ConfigServerClientSettings.DEFAULT_CLIENT_SECRET, options.ClientSecret);
             Assert.Equal(ConfigServerClientSettings.DEFAULT_CERTIFICATE_VALIDATION, options.ValidateCertificates);
+            Assert.Equal(ConfigServerClientSettings.DEFAULT_INITIAL_RETRY_INTERVAL, options.RetryInitialInterval);
+            Assert.Equal(ConfigServerClientSettings.DEFAULT_MAX_RETRY_ATTEMPTS, options.RetryAttempts);
+            Assert.Equal(ConfigServerClientSettings.DEFAULT_RETRY_ENABLED, options.RetryEnabled);
+            Assert.Equal(ConfigServerClientSettings.DEFAULT_RETRY_MULTIPLIER, options.RetryMultiplier);
+            Assert.Equal(ConfigServerClientSettings.DEFAULT_MAX_RETRY_INTERVAL, options.RetryMaxInterval);
+            Assert.Equal(ConfigServerClientSettings.DEFAULT_TIMEOUT_MILLISECONDS, options.Timeout);
+            Assert.Equal(ConfigServerClientSettings.DEFAULT_VAULT_TOKEN_RENEW_RATE, options.TokenRenewRate);
+            Assert.Equal(ConfigServerClientSettings.DEFAULT_VAULT_TOKEN_TTL, options.TokenTtl);
             Assert.Null(options.Name);
             Assert.Null(options.Label);
             Assert.Null(options.Username);
             Assert.Null(options.Password);
-
+            Assert.Null(options.Token);
         }
     }
 }

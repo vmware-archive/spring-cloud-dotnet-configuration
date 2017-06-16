@@ -117,6 +117,13 @@ namespace Pivotal.Extensions.Configuration.ConfigServer
                     request.Headers.Authorization = auth;
                 }
             }
+
+            if (!string.IsNullOrEmpty(Settings.Token))
+            {
+                RenewToken(_settings.Token);
+                request.Headers.Add(TOKEN_HEADER, _settings.Token);
+            }
+
             return request;
         }
 

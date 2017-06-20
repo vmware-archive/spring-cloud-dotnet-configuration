@@ -12,4 +12,7 @@ SET BUILD_TYPE=Release
 IF "%APPVEYOR_REPO_BRANCH%"=="master" COPY config\nuget-master.config .\nuget.config
 IF "%APPVEYOR_REPO_BRANCH%"=="dev" COPY config\nuget-dev.config .\nuget.config
 IF NOT "%APPVEYOR_REPO_TAG_NAME%"=="" COPY config\nuget.config .\nuget.config
+IF "%APPVEYOR_REPO_BRANCH%"=="master" COPY config\versions-master.config .\versions.config
+IF "%APPVEYOR_REPO_BRANCH%"=="dev" COPY config\versions-dev.config .\versions.config
+IF NOT "%APPVEYOR_REPO_TAG_NAME%"=="" COPY config\versions.config .\versions.config
 IF "%APPVEYOR_REPO_BRANCH%"=="dev" SET BUILD_TYPE=Debug

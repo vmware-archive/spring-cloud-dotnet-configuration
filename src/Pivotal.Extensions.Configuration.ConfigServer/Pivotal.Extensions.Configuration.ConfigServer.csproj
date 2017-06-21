@@ -17,8 +17,8 @@
   </PropertyGroup>
 
 <ItemGroup>
-    <PackageReference Include="Steeltoe.Extensions.Configuration.CloudFoundry" Version="$(SteeltoeRefVersion)" />
-    <PackageReference Include="Steeltoe.Extensions.Configuration.ConfigServer" Version="$(SteeltoeRefVersion)" />
+    <PackageReference Include="Steeltoe.Extensions.Configuration.CloudFoundry" Version="$(SteeltoeConfigVersion)" />
+    <PackageReference Include="Steeltoe.Extensions.Configuration.ConfigServer" Version="$(SteeltoeConfigVersion)" />
     <PackageReference Include="Microsoft.Extensions.PlatformAbstractions" Version="$(AspNetCoreVersion)" />
 </ItemGroup>
 

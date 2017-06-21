@@ -1,7 +1,8 @@
 <Project>
   <PropertyGroup>
-    <SteeltoeVersion>1.1.0</SteeltoeVersion>
-    <SteeltoeRefVersion>1.1.0-master-00120</SteeltoeRefVersion>
+    <SteeltoeVersion>$(STEELTOE_VERSION)</SteeltoeVersion>
+    <SteeltoeVersionSuffix>$(STEELTOE_DASH_VERSION_SUFFIX)</SteeltoeVersionSuffix>
+    <SteeltoeConfigVersion>1.1.0-master-00122</SteeltoeConfigVersion>
     <AspNetCoreVersion>1.1.0</AspNetCoreVersion>
     <CoreFxVersion>4.3.0</CoreFxVersion>
     <JsonNetVersion>9.0.1</JsonNetVersion>

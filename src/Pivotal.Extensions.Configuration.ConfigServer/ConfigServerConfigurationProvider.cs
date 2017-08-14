@@ -22,7 +22,11 @@ using System.Net;
 using Microsoft.Extensions.Logging;
 using System.Net.Http.Headers;
 using Newtonsoft.Json.Linq;
+#if NET452
 using System.Net.Security;
+#else
+using System.Security.Authentication;
+#endif
 using ST = Steeltoe.Extensions.Configuration.ConfigServer;
 using STC = Steeltoe.Extensions.Configuration;
 using Microsoft.AspNetCore.Hosting;
@@ -138,8 +142,11 @@ namespace Pivotal.Extensions.Configuration.ConfigServer
             HttpClient client = GetHttpClient(Settings);
 #if NET452
             RemoteCertificateValidationCallback prevValidator = null;
+            SecurityProtocolType prevProtocols = (SecurityProtocolType) 0;
             if (!Settings.ValidateCertificates)
             {
+                prevProtocols = ServicePointManager.SecurityProtocol;
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
                 prevValidator = ServicePointManager.ServerCertificateValidationCallback;
                 ServicePointManager.ServerCertificateValidationCallback = (sender, cert, chain, sslPolicyErrors) => true;
             }
@@ -179,6 +186,7 @@ namespace Pivotal.Extensions.Configuration.ConfigServer
 #if NET452
             finally
             {
+                ServicePointManager.SecurityProtocol = prevProtocols;
                 ServicePointManager.ServerCertificateValidationCallback = prevValidator;
             }
 #endif
@@ -276,8 +284,11 @@ namespace Pivotal.Extensions.Configuration.ConfigServer
             var obscuredToken = Settings.Token.Substring(0, 4) + "[*]" + Settings.Token.Substring(Settings.Token.Length - 4);
 #if NET452
             RemoteCertificateValidationCallback prevValidator = null;
+            SecurityProtocolType prevProtocols = (SecurityProtocolType) 0;
             if (!Settings.ValidateCertificates)
             {
+                prevProtocols = ServicePointManager.SecurityProtocol;
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
                 prevValidator = ServicePointManager.ServerCertificateValidationCallback;
                 ServicePointManager.ServerCertificateValidationCallback = (sender, cert, chain, sslPolicyErrors) => true;
             }
@@ -309,6 +320,7 @@ namespace Pivotal.Extensions.Configuration.ConfigServer
             {
                 client.Dispose();
 #if NET452
+                ServicePointManager.SecurityProtocol = prevProtocols;
                 ServicePointManager.ServerCertificateValidationCallback = prevValidator;
 #endif
             }

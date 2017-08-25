@@ -164,7 +164,7 @@ namespace Pivotal.Extensions.Configuration.ConfigServer
             {
                 using (client)
                 {
-                    using (HttpResponseMessage response = await client.SendAsync(request))
+                    using (HttpResponseMessage response = await client.SendAsync(request).ConfigureAwait(false))
                     {
                         if (response.StatusCode != HttpStatusCode.OK)
                         {
@@ -304,7 +304,7 @@ namespace Pivotal.Extensions.Configuration.ConfigServer
 
                 _logger?.LogInformation("Renewing Vault token {0} for {1} milliseconds at Uri {2}", obscuredToken, Settings.TokenTtl, uri);
 
-                using (HttpResponseMessage response = await client.SendAsync(message))
+                using (HttpResponseMessage response = await client.SendAsync(message).ConfigureAwait(false))
                 {
                    if (response.StatusCode != HttpStatusCode.OK)
                     {

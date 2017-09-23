@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.7
+VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{CC1E485F-5E92-4D2B-8CFA-C404AE679D87}"
 EndProject
@@ -11,6 +11,34 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pivotal.Extensions.Configuration.ConfigServer.ITest", "test\Pivotal.Extensions.Configuration.ConfigServer.ITest\Pivotal.Extensions.Configuration.ConfigServer.ITest.csproj", "{0818E3B6-DDF7-4037-8CA4-1DB2FCE3F2B2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pivotal.Extensions.Configuration.ConfigServer.Test", "test\Pivotal.Extensions.Configuration.ConfigServer.Test\Pivotal.Extensions.Configuration.ConfigServer.Test.csproj", "{C4A79D4B-7B37-4523-88D2-F0A8FCB29241}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "config", "config", "{7D7B907C-4761-4961-9239-189897A26D0C}"
+	ProjectSection(SolutionItems) = preProject
+		config\nuget-dev.config = config\nuget-dev.config
+		config\nuget-master.config = config\nuget-master.config
+		config\nuget-update.config = config\nuget-update.config
+		config\nuget.config = config\nuget.config
+		config\versions-dev.props = config\versions-dev.props
+		config\versions-master.props = config\versions-master.props
+		config\versions-update.props = config\versions-update.props
+		config\versions.props = config\versions.props
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{C8F3DA01-07E0-4B3B-9400-084050263D33}"
+	ProjectSection(SolutionItems) = preProject
+		scripts\appveyor_build.cmd = scripts\appveyor_build.cmd
+		scripts\appveyor_install.cmd = scripts\appveyor_install.cmd
+		scripts\appveyor_tests.cmd = scripts\appveyor_tests.cmd
+		scripts\travis_build.sh = scripts\travis_build.sh
+		scripts\travis_install.sh = scripts\travis_install.sh
+		scripts\travis_test.sh = scripts\travis_test.sh
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{95221FD9-A87D-4275-B4DA-D2C08FF61278}"
+	ProjectSection(SolutionItems) = preProject
+		.travis.yml = .travis.yml
+		appveyor.yml = appveyor.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -66,5 +94,8 @@ Global
 		{0A98CF92-5F6D-4F75-BFA9-BC9B5BCC6F0B} = {CC1E485F-5E92-4D2B-8CFA-C404AE679D87}
 		{0818E3B6-DDF7-4037-8CA4-1DB2FCE3F2B2} = {526B3D30-4C7C-4685-9B04-6BE1746437BD}
 		{C4A79D4B-7B37-4523-88D2-F0A8FCB29241} = {526B3D30-4C7C-4685-9B04-6BE1746437BD}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6589ADBE-302B-4626-ACE5-E076119F2790}
 	EndGlobalSection
 EndGlobal

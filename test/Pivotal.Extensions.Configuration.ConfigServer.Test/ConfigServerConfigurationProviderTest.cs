@@ -14,13 +14,10 @@
 // limitations under the License.
 //
 
-using Microsoft.AspNetCore.TestHost;
-using Microsoft.Extensions.Configuration;
+
 using System;
-using System.Collections.Generic;
 using System.Net.Http;
 using Xunit;
-using System.IO;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.AspNetCore.Hosting;
@@ -35,10 +32,9 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.Test
         {
             // Arrange
             ConfigServerClientSettings settings = null;
-            IHostingEnvironment env = new HostingEnvironment();
 
             // Act and Assert
-            var ex = Assert.Throws<ArgumentNullException>(() => new ConfigServerConfigurationProvider(settings, env));
+            var ex = Assert.Throws<ArgumentNullException>(() => new ConfigServerConfigurationProvider(settings));
             Assert.Contains(nameof(settings), ex.Message);
         }
 
@@ -47,11 +43,10 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.Test
         {
             // Arrange
             ConfigServerClientSettings settings = new ConfigServerClientSettings();
-            IHostingEnvironment env = new HostingEnvironment();
             HttpClient httpClient = null;
 
             // Act and Assert
-            var ex = Assert.Throws<ArgumentNullException>(() => new ConfigServerConfigurationProvider(settings, httpClient, env));
+            var ex = Assert.Throws<ArgumentNullException>(() => new ConfigServerConfigurationProvider(settings, httpClient));
             Assert.Contains(nameof(httpClient), ex.Message);
         }
 
@@ -60,11 +55,10 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.Test
         {
             // Arrange
             LoggerFactory logFactory = new LoggerFactory();
-            IHostingEnvironment envir = new HostingEnvironment();
             ConfigServerClientSettings settings = new ConfigServerClientSettings();
 
             // Act and Assert
-            var provider = new ConfigServerConfigurationProvider(settings, envir, logFactory);
+            var provider = new ConfigServerConfigurationProvider(settings, logFactory);
             Assert.NotNull(provider.Logger);
         }
         [Fact]
@@ -83,8 +77,7 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.Test
         public void DefaultConstructor_InitializedWithDefaultSettings()
         {
             // Arrange
-            IHostingEnvironment env = new HostingEnvironment();
-            ConfigServerConfigurationProvider provider = new ConfigServerConfigurationProvider(env);
+            ConfigServerConfigurationProvider provider = new ConfigServerConfigurationProvider();
 
             // Act and Assert
             TestHelpers.VerifyDefaults(provider.Settings);
@@ -95,7 +88,6 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.Test
         public void AddConfigServerClientSettings_ChangesDataDictionary()
         {
             // Arrange
-            IHostingEnvironment env = new HostingEnvironment();
             ConfigServerClientSettings settings = new ConfigServerClientSettings();
             settings.AccessTokenUri = "http://foo.bar/";
             settings.ClientId = "client_id";
@@ -112,7 +104,7 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.Test
             settings.Token = "vaulttoken";
             settings.TokenRenewRate = 1;
             settings.TokenTtl = 2;
-            ConfigServerConfigurationProvider provider = new ConfigServerConfigurationProvider(settings, env);
+            ConfigServerConfigurationProvider provider = new ConfigServerConfigurationProvider(settings);
 
 
             // Act and Assert
@@ -159,9 +151,8 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.Test
         public void GetConfigServerUri_WithExtraPathInfo()
         {
             // Arrange
-            IHostingEnvironment env = new HostingEnvironment();
             ConfigServerClientSettings settings = new ConfigServerClientSettings() { Uri = "http://localhost:9999/myPath/path/", Name = "myName", Environment = "Production" };
-            ConfigServerConfigurationProvider provider = new ConfigServerConfigurationProvider(settings, env);
+            ConfigServerConfigurationProvider provider = new ConfigServerConfigurationProvider(settings);
 
             // Act and Assert
             string path = provider.GetConfigServerUri(null);
@@ -172,9 +163,8 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.Test
         public void GetConfigServerUri_WithExtraPathInfo_NoEndingSlash()
         {
             // Arrange
-            IHostingEnvironment env = new HostingEnvironment();
             ConfigServerClientSettings settings = new ConfigServerClientSettings() { Uri = "http://localhost:9999/myPath/path", Name = "myName", Environment = "Production" };
-            ConfigServerConfigurationProvider provider = new ConfigServerConfigurationProvider(settings, env);
+            ConfigServerConfigurationProvider provider = new ConfigServerConfigurationProvider(settings);
 
             // Act and Assert
             string path = provider.GetConfigServerUri(null);
@@ -185,9 +175,8 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.Test
         public void GetConfigServerUri_NoEndingSlash()
         {
             // Arrange
-            IHostingEnvironment env = new HostingEnvironment();
             ConfigServerClientSettings settings = new ConfigServerClientSettings() { Uri = "http://localhost:9999", Name = "myName", Environment = "Production" };
-            ConfigServerConfigurationProvider provider = new ConfigServerConfigurationProvider(settings, env);
+            ConfigServerConfigurationProvider provider = new ConfigServerConfigurationProvider(settings);
 
             // Act and Assert
             string path = provider.GetConfigServerUri(null);
@@ -197,9 +186,8 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.Test
         public void GetConfigServerUri_WithEndingSlash()
         {
             // Arrange
-            IHostingEnvironment env = new HostingEnvironment();
             ConfigServerClientSettings settings = new ConfigServerClientSettings() { Uri = "http://localhost:9999/", Name = "myName", Environment = "Production" };
-            ConfigServerConfigurationProvider provider = new ConfigServerConfigurationProvider(settings, env);
+            ConfigServerConfigurationProvider provider = new ConfigServerConfigurationProvider(settings);
 
             // Act and Assert
             string path = provider.GetConfigServerUri(null);

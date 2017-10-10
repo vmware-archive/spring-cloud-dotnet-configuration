@@ -15,7 +15,6 @@
 //
 
 using System;
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -64,9 +63,15 @@ namespace Pivotal.Extensions.Configuration
                 throw new ArgumentNullException(nameof(environment));
             }
 
-            configurationBuilder.Add(new CloudFoundryConfigurationProvider());
-            configurationBuilder.Add(new ConfigServerConfigurationProvider(new ConfigServerClientSettings(), environment, logFactory));
+            configurationBuilder.Add(new CloudFoundryConfigurationSource());
 
+            var settings = new ConfigServerClientSettings()
+            {
+                Name = environment.ApplicationName,
+                Environment = environment.EnvironmentName
+            };
+
+            configurationBuilder.Add(new ConfigServerConfigurationProvider(settings, logFactory));
             return configurationBuilder;
 
         }

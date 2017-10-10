@@ -21,8 +21,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Hosting.Internal;
 using System.IO;
+using Pivotal.Extensions.Configuration.ConfigServer;
 
-namespace Pivotal.Extensions.Configuration.ConfigServer.Test
+namespace Pivotal.Extensions.Configuration.ConfigServerCore.Test
 {
     public class ConfigServerConfigurationExtensionsTest
     {
@@ -34,7 +35,7 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.Test
             var environment = new HostingEnvironment();
 
             // Act and Assert
-            var ex = Assert.Throws<ArgumentNullException>(() => ConfigServerConfigurationBuilderExtensions.AddConfigServer(configurationBuilder, environment));
+            var ex = Assert.Throws<ArgumentNullException>(() => configurationBuilder.AddConfigServer(environment));
             Assert.Contains(nameof(configurationBuilder), ex.Message);
 
         }
@@ -46,7 +47,7 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.Test
             IConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
             IHostingEnvironment environment = null;
             // Act and Assert
-            var ex = Assert.Throws<ArgumentNullException>(() => ConfigServerConfigurationBuilderExtensions.AddConfigServer(configurationBuilder, environment));
+            var ex = Assert.Throws<ArgumentNullException>(() => configurationBuilder.AddConfigServer(environment));
             Assert.Contains(nameof(environment), ex.Message);
 
         }
@@ -62,7 +63,7 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.Test
             configurationBuilder.AddConfigServer(environment);
 
             ConfigServerConfigurationProvider configServerProvider = null;
-            foreach (IConfigurationProvider source in configurationBuilder.Sources)
+            foreach (IConfigurationSource source in configurationBuilder.Sources)
             {
                 configServerProvider = source as ConfigServerConfigurationProvider;
                 if (configServerProvider != null)
@@ -84,7 +85,7 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.Test
             configurationBuilder.AddConfigServer(environment,loggerFactory);
 
             ConfigServerConfigurationProvider configServerProvider = null;
-            foreach (IConfigurationProvider source in configurationBuilder.Sources)
+            foreach (IConfigurationSource source in configurationBuilder.Sources)
             {
                 configServerProvider = source as ConfigServerConfigurationProvider;
                 if (configServerProvider != null)

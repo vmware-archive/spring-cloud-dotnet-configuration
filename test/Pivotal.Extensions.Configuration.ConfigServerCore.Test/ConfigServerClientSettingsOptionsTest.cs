@@ -19,9 +19,10 @@ using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using Pivotal.Extensions.Configuration.ConfigServer;
 using Xunit;
 
-namespace Pivotal.Extensions.Configuration.ConfigServer.Test
+namespace Pivotal.Extensions.Configuration.ConfigServerCore.Test
 {
     public class ConfigServerClientSettingsOptionsTest
     {
@@ -36,7 +37,7 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.Test
             var builder = new ConfigurationBuilder().AddConfigServer(environment);
             var config = builder.Build();
 
-            services.Configure<ConfigServerClientSettingsOptions>(config);
+            services.ConfigureConfigServerClientOptions(config);
             var service = services.BuildServiceProvider().GetService<IOptions<ConfigServerClientSettingsOptions>>();
             Assert.NotNull(service);
             var options = service.Value;

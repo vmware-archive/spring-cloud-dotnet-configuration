@@ -1,43 +1,58 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿//
+// Copyright 2015 the original author or authors.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
 using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using Pivotal.Extensions.Configuration.ConfigServer;
 using Steeltoe.Extensions.Configuration.CloudFoundry;
 using System;
-
 using Xunit;
 
-namespace Pivotal.Extensions.Configuration.ConfigServer.Test
+namespace Pivotal.Extensions.Configuration.ConfigServerCore.Test
 {
     public class ConfigServerServiceCollectionExtensionsTest
     {
         [Fact]
-        public void AddConfigServer_ThrowsIfServiceCollectionNull()
+        public void ConfigureConfigServerClientOptions_ThrowsIfServiceCollectionNull()
         {
             // Arrange
             IServiceCollection services = null;
             IConfigurationRoot config = null;
 
             // Act and Assert
-            var ex = Assert.Throws<ArgumentNullException>(() => ConfigServerServiceCollectionExtensions.AddConfigServer(services, config));
+            var ex = Assert.Throws<ArgumentNullException>(() => services.ConfigureConfigServerClientOptions(config));
             Assert.Contains(nameof(services), ex.Message);
 
         }
         [Fact]
-        public void AddConfigServer_ThrowsIfConfigurtionNull()
+        public void ConfigureConfigServerClientOptions_ThrowsIfConfigurtionNull()
         {
             // Arrange
             IServiceCollection services = new ServiceCollection();
             IConfigurationRoot config = null;
 
             // Act and Assert
-            var ex = Assert.Throws<ArgumentNullException>(() => ConfigServerServiceCollectionExtensions.AddConfigServer(services, config));
+            var ex = Assert.Throws<ArgumentNullException>(() => services.ConfigureConfigServerClientOptions(config));
             Assert.Contains(nameof(config), ex.Message);
 
         }
         [Fact]
-        public void AddConfigServer_ConfiguresConfigServerClientSettingsOptions_WithDefaults()
+        public void ConfigureConfigServerClientOptions_ConfiguresConfigServerClientSettingsOptions_WithDefaults()
         {
             // Arrange
             var services = new ServiceCollection();
@@ -46,7 +61,7 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.Test
             // Act and Assert
             var builder = new ConfigurationBuilder().AddConfigServer(environment);
             var config = builder.Build();
-            ConfigServerServiceCollectionExtensions.AddConfigServer(services, config);
+            services.ConfigureConfigServerClientOptions(config);
 
             var serviceProvider = services.BuildServiceProvider();
             var service = serviceProvider.GetService<IOptions<ConfigServerClientSettingsOptions>>();
@@ -70,7 +85,7 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.Test
 
         }
         [Fact]
-        public void AddConfigServer_ConfiguresCloudFoundryOptions()
+        public void ConfigureConfigServerClientOptions_ConfiguresCloudFoundryOptions()
         {
             // Arrange
             var services = new ServiceCollection();
@@ -79,7 +94,7 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.Test
             // Act and Assert
             var builder = new ConfigurationBuilder().AddConfigServer(environment);
             var config = builder.Build();
-            ConfigServerServiceCollectionExtensions.AddConfigServer(services, config);
+            services.ConfigureConfigServerClientOptions(config);
 
             var serviceProvider = services.BuildServiceProvider();
             var app = serviceProvider.GetService<IOptions<CloudFoundryApplicationOptions>>();
@@ -88,21 +103,6 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.Test
             Assert.NotNull(service);
 
         }
-        [Fact]
-        public void AddConfigServer_AddsConfigurationAsService()
-        {
-            // Arrange
-            var services = new ServiceCollection();
-            var environment = new HostingEnvironment();
 
-            // Act and Assert
-            var builder = new ConfigurationBuilder().AddConfigServer(environment);
-            var config = builder.Build();
-            ConfigServerServiceCollectionExtensions.AddConfigServer(services, config);
-
-            var service = services.BuildServiceProvider().GetService<IConfigurationRoot>();
-            Assert.NotNull(service);
-
-        }
     }
 }

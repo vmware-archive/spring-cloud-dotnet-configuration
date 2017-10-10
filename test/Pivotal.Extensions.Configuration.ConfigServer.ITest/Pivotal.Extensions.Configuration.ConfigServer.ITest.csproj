@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Pivotal.Extensions.Configuration.ConfigServer\Pivotal.Extensions.Configuration.ConfigServer.csproj" />
+    <ProjectReference Include="..\..\src\Pivotal.Extensions.Configuration.ConfigServerCore\Pivotal.Extensions.Configuration.ConfigServerCore.csproj" />
     <ProjectReference Include="..\..\test\Pivotal.Extensions.Configuration.ConfigServer.Test\Pivotal.Extensions.Configuration.ConfigServer.Test.csproj" />
   </ItemGroup>
 
@@ -29,8 +29,6 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="$(AspNetCoreMvcTestVersion)" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="$(AspNetCoreTestVersion)" />
 
-    <!-- 4.3.0 of this package has problems on net46+, by default that version gets included, so we have to force using 4.3.1+ in apps -->
-    <PackageReference Include="System.Net.Http" Version="$(HttpVersion)" />    
   </ItemGroup>
 
   <ItemGroup>

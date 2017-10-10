@@ -74,17 +74,6 @@ namespace Pivotal.Extensions.Configuration.ConfigServer
         /// </summary>
         public ConfigServerClientSettings() : base()
         {
-            ValidateCertificates = DEFAULT_CERTIFICATE_VALIDATION;
-            FailFast = DEFAULT_FAILFAST;
-            Environment = DEFAULT_ENVIRONMENT;
-            Enabled = DEFAULT_PROVIDER_ENABLED;
-            Uri = DEFAULT_URI;
-            RetryEnabled = DEFAULT_RETRY_ENABLED;
-            RetryInitialInterval = DEFAULT_INITIAL_RETRY_INTERVAL;
-            RetryMaxInterval = DEFAULT_MAX_RETRY_INTERVAL;
-            RetryAttempts = DEFAULT_MAX_RETRY_ATTEMPTS;
-            RetryMultiplier = DEFAULT_RETRY_MULTIPLIER;
-            Timeout = DEFAULT_TIMEOUT_MILLISECONDS;
         }
 
     }

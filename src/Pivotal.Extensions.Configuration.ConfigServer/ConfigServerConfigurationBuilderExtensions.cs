@@ -1,5 +1,5 @@
 ﻿//
-// Copyright 2015 the original author or authors.
+// Copyright 2017 the original author or authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,7 +15,6 @@
 //
 
 using System;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
@@ -27,31 +26,27 @@ namespace Pivotal.Extensions.Configuration
     /// <summary>
     /// Extension methods for adding <see cref="ConfigServerConfigurationProvider"/>.
     /// </summary>
+
     public static class ConfigServerConfigurationBuilderExtensions
     {
+        public static IConfigurationBuilder AddConfigServer(this IConfigurationBuilder configurationBuilder, string environment, ILoggerFactory logFactory = null) =>
+            configurationBuilder.AddConfigServer(new ConfigServerClientSettings() { Environment = environment }, logFactory);
 
-        public static IConfigurationBuilder AddConfigServer(this IConfigurationBuilder configurationBuilder, IHostingEnvironment environment, ILoggerFactory logFactory = null)
+        public static IConfigurationBuilder AddConfigServer(this IConfigurationBuilder configurationBuilder, ConfigServerClientSettings defaultSettings, ILoggerFactory logFactory = null)
         {
             if (configurationBuilder == null)
             {
                 throw new ArgumentNullException(nameof(configurationBuilder));
             }
 
-            if (environment == null)
+            if (defaultSettings == null)
             {
-                throw new ArgumentNullException(nameof(environment));
+                throw new ArgumentNullException(nameof(defaultSettings));
             }
 
-            var settings = new ConfigServerClientSettings()
-            {
-                Name = environment.ApplicationName,
-                Environment = environment.EnvironmentName
-            };
-
-            configurationBuilder.AddConfigServer(settings, logFactory);
+            configurationBuilder.Add(new CloudFoundryConfigurationSource());
+            configurationBuilder.Add(new ConfigServerConfigurationProvider(defaultSettings, logFactory));
             return configurationBuilder;
-
         }
-
     }
 }

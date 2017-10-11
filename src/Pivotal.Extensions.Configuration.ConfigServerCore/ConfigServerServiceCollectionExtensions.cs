@@ -18,10 +18,9 @@ using System;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
-using Pivotal.Extensions.Configuration.ConfigServer;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
-namespace Pivotal.Extensions.Configuration
+namespace Pivotal.Extensions.Configuration.ConfigServer
 {
     /// <summary>
     /// Extension methods for adding services related to Spring Cloud Config Server.

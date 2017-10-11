@@ -17,7 +17,7 @@
 using Microsoft.AspNetCore.Hosting;
 
 
-namespace Pivotal.Extensions.Configuration.ConfigServerCore
+namespace Pivotal.Extensions.Configuration.ConfigServer
 {
     public static class ConfigServerHostBuilderExtensions
     {

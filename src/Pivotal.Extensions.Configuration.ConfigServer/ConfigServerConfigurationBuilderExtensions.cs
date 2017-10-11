@@ -17,21 +17,44 @@
 using System;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-
+using System.Reflection;
 using Steeltoe.Extensions.Configuration.CloudFoundry;
-using Pivotal.Extensions.Configuration.ConfigServer;
 
-namespace Pivotal.Extensions.Configuration
+namespace Pivotal.Extensions.Configuration.ConfigServer
 {
     /// <summary>
     /// Extension methods for adding <see cref="ConfigServerConfigurationProvider"/>.
     /// </summary>
 
-    public static class ConfigServerConfigurationBuilderExtensions
+    public static class ConfigServerConfigurationBuilderExtensions 
     {
-        public static IConfigurationBuilder AddConfigServer(this IConfigurationBuilder configurationBuilder, string environment, ILoggerFactory logFactory = null) =>
-            configurationBuilder.AddConfigServer(new ConfigServerClientSettings() { Environment = environment }, logFactory);
+        private const string DEFAULT_ENVIRONMENT = "Production";
 
+        public static IConfigurationBuilder AddConfigServer(this IConfigurationBuilder configurationBuilder, ILoggerFactory logFactory = null)
+        {
+            return configurationBuilder.AddConfigServer(DEFAULT_ENVIRONMENT, Assembly.GetEntryAssembly()?.GetName().Name);
+        }
+
+        public static IConfigurationBuilder AddConfigServer(this IConfigurationBuilder configurationBuilder, string environment, ILoggerFactory logFactory = null)
+        {
+            return configurationBuilder.AddConfigServer(environment, Assembly.GetEntryAssembly()?.GetName().Name);
+        }
+
+        public static IConfigurationBuilder AddConfigServer(this IConfigurationBuilder configurationBuilder, string environment, string applicationName, ILoggerFactory logFactory = null)
+        {
+            if (configurationBuilder == null)
+            {
+                throw new ArgumentNullException(nameof(configurationBuilder));
+            }
+
+            var settings = new ConfigServerClientSettings()
+            {
+                Name = applicationName ?? Assembly.GetEntryAssembly()?.GetName().Name,
+                Environment = environment ?? DEFAULT_ENVIRONMENT
+            };
+
+            return configurationBuilder.AddConfigServer(settings, logFactory);
+        }
         public static IConfigurationBuilder AddConfigServer(this IConfigurationBuilder configurationBuilder, ConfigServerClientSettings defaultSettings, ILoggerFactory logFactory = null)
         {
             if (configurationBuilder == null)

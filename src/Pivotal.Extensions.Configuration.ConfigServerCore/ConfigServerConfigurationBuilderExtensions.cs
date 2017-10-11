@@ -19,10 +19,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-using Steeltoe.Extensions.Configuration.CloudFoundry;
-using Pivotal.Extensions.Configuration.ConfigServer;
-
-namespace Pivotal.Extensions.Configuration
+namespace Pivotal.Extensions.Configuration.ConfigServer
 {
     /// <summary>
     /// Extension methods for adding <see cref="ConfigServerConfigurationProvider"/>.

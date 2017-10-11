@@ -17,11 +17,10 @@
 using System;
 
 using Microsoft.Extensions.Configuration;
-using Pivotal.Extensions.Configuration.ConfigServer;
 using Autofac;
 using Steeltoe.Common.Options.Autofac;
 
-namespace Pivotal.Extensions.Configuration
+namespace Pivotal.Extensions.Configuration.ConfigServer
 {
     /// <summary>
     /// Extension methods for adding services related to Spring Cloud Config Server.

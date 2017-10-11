@@ -19,7 +19,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="$(AspNetCoreVersion)" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="$(AspNetCoreVersion)" />
-    <PackageReference Include="Steeltoe.Extensions.Configuration.CloudFoundry" Version="$(SteeltoeConfigVersion)" />
+    <PackageReference Include="Steeltoe.Extensions.Configuration.CloudFoundryCore" Version="$(SteeltoeConfigVersion)" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(CI_BUILD)' == ''">

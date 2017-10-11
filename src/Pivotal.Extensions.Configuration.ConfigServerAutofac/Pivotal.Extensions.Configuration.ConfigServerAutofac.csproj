@@ -19,7 +19,7 @@
   <ItemGroup>
     <PackageReference Include="Autofac" Version="$(AutofacVersion)" />
     <PackageReference Include="Steeltoe.Common.Autofac" Version="$(SteeltoeCommonVersion)" />
-    <PackageReference Include="Steeltoe.Extensions.Configuration.CloudFoundry" Version="$(SteeltoeConfigVersion)" />
+    <PackageReference Include="Steeltoe.Extensions.Configuration.CloudFoundryAutofac" Version="$(SteeltoeConfigVersion)" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(CI_BUILD)' == ''">

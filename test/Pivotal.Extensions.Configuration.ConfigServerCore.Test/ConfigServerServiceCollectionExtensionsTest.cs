@@ -1,5 +1,4 @@
-﻿//
-// Copyright 2015 the original author or authors.
+﻿// Copyright 2017 the original author or authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,7 +11,6 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-//
 
 using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.Extensions.Configuration;
@@ -37,8 +35,8 @@ namespace Pivotal.Extensions.Configuration.ConfigServerCore.Test
             // Act and Assert
             var ex = Assert.Throws<ArgumentNullException>(() => services.ConfigureConfigServerClientOptions(config));
             Assert.Contains(nameof(services), ex.Message);
-
         }
+
         [Fact]
         public void ConfigureConfigServerClientOptions_ThrowsIfConfigurtionNull()
         {
@@ -49,8 +47,8 @@ namespace Pivotal.Extensions.Configuration.ConfigServerCore.Test
             // Act and Assert
             var ex = Assert.Throws<ArgumentNullException>(() => services.ConfigureConfigServerClientOptions(config));
             Assert.Contains(nameof(config), ex.Message);
-
         }
+
         [Fact]
         public void ConfigureConfigServerClientOptions_ConfiguresConfigServerClientSettingsOptions_WithDefaults()
         {
@@ -82,8 +80,8 @@ namespace Pivotal.Extensions.Configuration.ConfigServerCore.Test
             Assert.Null(options.AccessTokenUri);
             Assert.Null(options.ClientId);
             Assert.Null(options.ClientSecret);
-
         }
+
         [Fact]
         public void ConfigureConfigServerClientOptions_ConfiguresCloudFoundryOptions()
         {
@@ -101,8 +99,6 @@ namespace Pivotal.Extensions.Configuration.ConfigServerCore.Test
             Assert.NotNull(app);
             var service = serviceProvider.GetService<IOptions<CloudFoundryServicesOptions>>();
             Assert.NotNull(service);
-
         }
-
     }
 }

@@ -1,5 +1,4 @@
-﻿//
-// Copyright 2015 the original author or authors.
+﻿// Copyright 2017 the original author or authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,16 +11,15 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-//
 
-using Microsoft.Extensions.Configuration;
-using Xunit;
-using System;
-using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Hosting.Internal;
-using System.IO;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Pivotal.Extensions.Configuration.ConfigServer;
+using System;
+using System.IO;
+using Xunit;
 
 namespace Pivotal.Extensions.Configuration.ConfigServerCore.Test
 {
@@ -37,7 +35,6 @@ namespace Pivotal.Extensions.Configuration.ConfigServerCore.Test
             // Act and Assert
             var ex = Assert.Throws<ArgumentNullException>(() => configurationBuilder.AddConfigServer(environment));
             Assert.Contains(nameof(configurationBuilder), ex.Message);
-
         }
 
         [Fact]
@@ -46,10 +43,10 @@ namespace Pivotal.Extensions.Configuration.ConfigServerCore.Test
             // Arrange
             IConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
             IHostingEnvironment environment = null;
+
             // Act and Assert
             var ex = Assert.Throws<ArgumentNullException>(() => configurationBuilder.AddConfigServer(environment));
             Assert.Contains(nameof(environment), ex.Message);
-
         }
 
         [Fact]
@@ -67,10 +64,12 @@ namespace Pivotal.Extensions.Configuration.ConfigServerCore.Test
             {
                 configServerProvider = source as ConfigServerConfigurationProvider;
                 if (configServerProvider != null)
+                {
                     break;
+                }
             }
-            Assert.NotNull(configServerProvider);
 
+            Assert.NotNull(configServerProvider);
         }
 
         [Fact]
@@ -82,19 +81,20 @@ namespace Pivotal.Extensions.Configuration.ConfigServerCore.Test
             var environment = new HostingEnvironment();
 
             // Act and Assert
-            configurationBuilder.AddConfigServer(environment,loggerFactory);
+            configurationBuilder.AddConfigServer(environment, loggerFactory);
 
             ConfigServerConfigurationProvider configServerProvider = null;
             foreach (IConfigurationSource source in configurationBuilder.Sources)
             {
                 configServerProvider = source as ConfigServerConfigurationProvider;
                 if (configServerProvider != null)
+                {
                     break;
+                }
             }
 
             Assert.NotNull(configServerProvider);
             Assert.NotNull(configServerProvider.Logger);
-
         }
 
         [Fact]
@@ -149,8 +149,11 @@ namespace Pivotal.Extensions.Configuration.ConfigServerCore.Test
             {
                 configServerProvider = source as ConfigServerConfigurationProvider;
                 if (configServerProvider != null)
+                {
                     break;
+                }
             }
+
             Assert.NotNull(configServerProvider);
             ConfigServerClientSettings settings = configServerProvider.Settings;
 
@@ -175,7 +178,6 @@ namespace Pivotal.Extensions.Configuration.ConfigServerCore.Test
             Assert.Equal(50000, settings.TokenRenewRate);
             Assert.Equal(50000, settings.TokenTtl);
         }
-
 
         [Fact]
         public void AddConfigServer_XmlAppSettingsConfiguresClient()
@@ -215,8 +217,11 @@ namespace Pivotal.Extensions.Configuration.ConfigServerCore.Test
             {
                 configServerProvider = source as ConfigServerConfigurationProvider;
                 if (configServerProvider != null)
+                {
                     break;
+                }
             }
+
             Assert.NotNull(configServerProvider);
             ConfigServerClientSettings settings = configServerProvider.Settings;
 
@@ -231,8 +236,8 @@ namespace Pivotal.Extensions.Configuration.ConfigServerCore.Test
             Assert.Null(settings.AccessTokenUri);
             Assert.Null(settings.ClientId);
             Assert.Null(settings.ClientSecret);
-
         }
+
         [Fact]
         public void AddConfigServer_IniAppSettingsConfiguresClient()
         {
@@ -252,7 +257,7 @@ namespace Pivotal.Extensions.Configuration.ConfigServerCore.Test
             string fileName = Path.GetFileName(path);
             ConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
             configurationBuilder.SetBasePath(directory);
-            
+
             var environment = new HostingEnvironment();
             configurationBuilder.AddIniFile(fileName);
 
@@ -265,8 +270,11 @@ namespace Pivotal.Extensions.Configuration.ConfigServerCore.Test
             {
                 configServerProvider = source as ConfigServerConfigurationProvider;
                 if (configServerProvider != null)
+                {
                     break;
+                }
             }
+
             Assert.NotNull(configServerProvider);
             ConfigServerClientSettings settings = configServerProvider.Settings;
 
@@ -282,7 +290,6 @@ namespace Pivotal.Extensions.Configuration.ConfigServerCore.Test
             Assert.Null(settings.AccessTokenUri);
             Assert.Null(settings.ClientId);
             Assert.Null(settings.ClientSecret);
-
         }
 
         [Fact]
@@ -313,8 +320,11 @@ namespace Pivotal.Extensions.Configuration.ConfigServerCore.Test
             {
                 configServerProvider = source as ConfigServerConfigurationProvider;
                 if (configServerProvider != null)
+                {
                     break;
+                }
             }
+
             Assert.NotNull(configServerProvider);
             ConfigServerClientSettings settings = configServerProvider.Settings;
 
@@ -322,14 +332,13 @@ namespace Pivotal.Extensions.Configuration.ConfigServerCore.Test
             Assert.False(settings.FailFast);
             Assert.Equal("http://foo.com:9999", settings.Uri);
             Assert.Equal(ConfigServerClientSettings.DEFAULT_ENVIRONMENT, settings.Environment);
-            Assert.Equal("myName", settings.Name );
-            Assert.Equal("myLabel", settings.Label );
+            Assert.Equal("myName", settings.Name);
+            Assert.Equal("myLabel", settings.Label);
             Assert.Equal("myUsername", settings.Username);
-            Assert.Equal("myPassword", settings.Password );
+            Assert.Equal("myPassword", settings.Password);
             Assert.Null(settings.AccessTokenUri);
             Assert.Null(settings.ClientId);
             Assert.Null(settings.ClientSecret);
-
         }
 
         [Fact]
@@ -367,7 +376,6 @@ namespace Pivotal.Extensions.Configuration.ConfigServerCore.Test
             ConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
             configurationBuilder.SetBasePath(directory);
 
-
             var environment = new HostingEnvironment();
             configurationBuilder.AddJsonFile(fileName);
 
@@ -380,8 +388,11 @@ namespace Pivotal.Extensions.Configuration.ConfigServerCore.Test
             {
                 configServerProvider = source as ConfigServerConfigurationProvider;
                 if (configServerProvider != null)
+                {
                     break;
+                }
             }
+
             Assert.NotNull(configServerProvider);
             ConfigServerClientSettings settings = configServerProvider.Settings;
 
@@ -401,9 +412,8 @@ namespace Pivotal.Extensions.Configuration.ConfigServerCore.Test
         [Fact]
         public void AddConfigServer_WithCloudfoundryEnvironment_ConfiguresClientCorrectly()
         {
-
             // Arrange
-            var VCAP_APPLICATION = @" 
+            var vcap_application = @" 
 {
 'vcap': {
     'application': 
@@ -432,7 +442,7 @@ namespace Pivotal.Extensions.Configuration.ConfigServerCore.Test
     }
 }";
 
-            var VCAP_SERVICES = @"
+            var vcap_services = @"
 {
 'vcap': {
     'services': {
@@ -469,10 +479,10 @@ namespace Pivotal.Extensions.Configuration.ConfigServerCore.Test
             var appsettingsPath = TestHelpers.CreateTempFile(appsettings);
             string appsettingsfileName = Path.GetFileName(appsettingsPath);
 
-            var vcapAppPath = TestHelpers.CreateTempFile(VCAP_APPLICATION);
+            var vcapAppPath = TestHelpers.CreateTempFile(vcap_application);
             string vcapAppfileName = Path.GetFileName(vcapAppPath);
 
-            var vcapServicesPath = TestHelpers.CreateTempFile(VCAP_SERVICES);
+            var vcapServicesPath = TestHelpers.CreateTempFile(vcap_services);
             string vcapServicesfileName = Path.GetFileName(vcapServicesPath);
 
             var environment = new HostingEnvironment();
@@ -493,8 +503,11 @@ namespace Pivotal.Extensions.Configuration.ConfigServerCore.Test
             {
                 configServerProvider = source as ConfigServerConfigurationProvider;
                 if (configServerProvider != null)
+                {
                     break;
+                }
             }
+
             Assert.NotNull(configServerProvider);
 
             // Check settings

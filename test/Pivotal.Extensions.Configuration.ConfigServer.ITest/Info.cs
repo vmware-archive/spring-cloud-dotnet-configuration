@@ -9,17 +9,14 @@
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// See the License for the specific language gover
 
 namespace Pivotal.Extensions.Configuration.ConfigServer.ITest
 {
-    public class ConfigServerDataAsOptions
+    public class Info
     {
-        public string Bar { get; set; }
+        public string Description { get; set; }
 
-        public string Foo { get; set; }
-
-        public Info Info { get; set; }
+        public string Url { get; set; }
     }
 }

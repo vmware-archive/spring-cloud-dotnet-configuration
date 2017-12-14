@@ -1,5 +1,4 @@
-﻿//
-// Copyright 2017 the original author or authors.
+﻿// Copyright 2017 the original author or authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,21 +11,19 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-//
 
-using System;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using System.Reflection;
 using Steeltoe.Extensions.Configuration.CloudFoundry;
+using System;
+using System.Reflection;
 
 namespace Pivotal.Extensions.Configuration.ConfigServer
 {
     /// <summary>
     /// Extension methods for adding <see cref="ConfigServerConfigurationProvider"/>.
     /// </summary>
-
-    public static class ConfigServerConfigurationBuilderExtensions 
+    public static class ConfigServerConfigurationBuilderExtensions
     {
         private const string DEFAULT_ENVIRONMENT = "Production";
 
@@ -55,6 +52,7 @@ namespace Pivotal.Extensions.Configuration.ConfigServer
 
             return configurationBuilder.AddConfigServer(settings, logFactory);
         }
+
         public static IConfigurationBuilder AddConfigServer(this IConfigurationBuilder configurationBuilder, ConfigServerClientSettings defaultSettings, ILoggerFactory logFactory = null)
         {
             if (configurationBuilder == null)

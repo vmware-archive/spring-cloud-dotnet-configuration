@@ -1,5 +1,4 @@
-﻿//
-// Copyright 2015 the original author or authors.
+﻿// Copyright 2017 the original author or authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,7 +11,6 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-//
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -23,10 +21,9 @@ using System.IO;
 
 namespace Pivotal.Extensions.Configuration.ConfigServer.ITest
 {
-    class TestServerStartup
+    public class TestServerStartup
     {
         public IConfiguration Configuration { get; set; }
-
 
         public TestServerStartup(IHostingEnvironment environment)
         {
@@ -50,13 +47,12 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.ITest
             string fileName = Path.GetFileName(path);
             var builder = new ConfigurationBuilder();
             builder.SetBasePath(directory);
-                
+
             builder.AddJsonFile(fileName)
                 .AddConfigServer(environment);
             Configuration = builder.Build();
-
         }
-  
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddOptions();
@@ -64,14 +60,13 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.ITest
 
             services.AddMvc();
         }
+
         public void Configure(IApplicationBuilder app)
         {
-
             app.UseMvc(routes =>
                 routes.MapRoute(
                     name: "VerifyAsInjectedOptions",
-                    template: "{controller=Home}/{action=VerifyAsInjectedOptions}")
-                );
+                    template: "{controller=Home}/{action=VerifyAsInjectedOptions}"));
         }
     }
 }

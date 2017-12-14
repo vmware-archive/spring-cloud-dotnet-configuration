@@ -1,5 +1,4 @@
-﻿//
-// Copyright 2015 the original author or authors.
+﻿// Copyright 2017 the original author or authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,16 +11,13 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-//
 
-
-using Xunit;
-using Microsoft.AspNetCore.TestHost;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.TestHost;
+using Xunit;
 
 namespace Pivotal.Extensions.Configuration.ConfigServer.ITest
 {
-    //
     // NOTE: Some of the tests assume a running Spring Cloud Config Server is started
     //       with repository data for application: foo, profile: development
     //
@@ -30,7 +26,6 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.ITest
     //          eg. git clone https://github.com/spring-cloud/spring-cloud-config.git
     //              cd spring-cloud-config\spring-cloud-config-server
     //              mvn spring-boot:run
-    //
 
     public class ConfigServerConfigurationExtensionsIntegrationTest
     {
@@ -42,7 +37,7 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.ITest
         public async void SpringCloudConfigServer_ConfiguredViaCloudfoundryEnv_ReturnsExpectedDefaultData_AsInjectedOptions()
         {
             // Arrange
-            var VCAP_APPLICATION = @" 
+            var vcap_application = @" 
 {
 
     'application_id': 'fa05c1a9-0fc1-4fbd-bae1-139850dec7a3',
@@ -67,8 +62,7 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.ITest
     'version': 'fb8fbcc6-8d58-479e-bcc7-3b4ce5a7f0ca'
 }";
 
-
-            var VCAP_SERVICES = @"
+            var vcap_services = @"
 {
     'p-config-server': [
     {
@@ -89,8 +83,8 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.ITest
     ]
 }";
 
-            System.Environment.SetEnvironmentVariable("VCAP_APPLICATION", VCAP_APPLICATION);
-            System.Environment.SetEnvironmentVariable("VCAP_SERVICES", VCAP_SERVICES);
+            System.Environment.SetEnvironmentVariable("VCAP_APPLICATION", vcap_application);
+            System.Environment.SetEnvironmentVariable("VCAP_SERVICES", vcap_services);
 
             var builder = new WebHostBuilder().UseStartup<TestServerCloudfoundryStartup>()
                                                 .UseEnvironment("development");
@@ -101,19 +95,19 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.ITest
                 var client = server.CreateClient();
                 string result = await client.GetStringAsync("http://localhost/Home/VerifyAsInjectedOptions");
 
-                Assert.Equal("spam" +
+                Assert.Equal(
+                    "spam" +
                     "from foo development" +
                     "Spring Cloud Samples" +
                     "https://github.com/spring-cloud-samples", result);
             }
         }
 
-       
         [Fact(Skip = "Requires matching PCF environment with SCCS provisioned")]
         public async void SpringCloudConfigServer_ConfiguredViaCloudfoundryEnv()
         {
             // Arrange
-            var VCAP_APPLICATION = @" 
+            var vcap_application = @" 
 {
     'limits': {
     'mem': 1024,
@@ -136,8 +130,7 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.ITest
     'users': null
 }";
 
-
-            var VCAP_SERVICES = @"
+            var vcap_services = @"
 {
     'p-config-server': [
     {
@@ -158,8 +151,8 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.ITest
     ]
 }";
 
-            System.Environment.SetEnvironmentVariable("VCAP_APPLICATION", VCAP_APPLICATION);
-            System.Environment.SetEnvironmentVariable("VCAP_SERVICES", VCAP_SERVICES);
+            System.Environment.SetEnvironmentVariable("VCAP_APPLICATION", vcap_application);
+            System.Environment.SetEnvironmentVariable("VCAP_SERVICES", vcap_services);
 
             var builder = new WebHostBuilder().UseStartup<TestServerCloudfoundryStartup>()
                                                 .UseEnvironment("development");
@@ -170,7 +163,8 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.ITest
                 var client = server.CreateClient();
                 string result = await client.GetStringAsync("http://localhost/Home/VerifyAsInjectedOptions");
 
-                Assert.Equal("spam" +
+                Assert.Equal(
+                    "spam" +
                     "barcelona" +
                     "Spring Cloud Samples" +
                     "https://github.com/spring-cloud-samples", result);
@@ -178,4 +172,3 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.ITest
         }
     }
 }
-

@@ -1,5 +1,4 @@
-﻿//
-// Copyright 2015 the original author or authors.
+﻿// Copyright 2017 the original author or authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,21 +11,18 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-//
 
-
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Hosting.Internal;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Net.Http;
 using Xunit;
-using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Hosting.Internal;
-using Microsoft.AspNetCore.Hosting;
 
 namespace Pivotal.Extensions.Configuration.ConfigServer.Test
 {
     public class ConfigServerConfigurationProviderTest
     {
-
         [Fact]
         public void SettingsConstructor__ThrowsIfSettingsNull()
         {
@@ -61,6 +57,7 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.Test
             var provider = new ConfigServerConfigurationProvider(settings, logFactory);
             Assert.NotNull(provider.Logger);
         }
+
         [Fact]
         public void SettingsConstructor__ThrowsIfEnvironmentNull()
         {
@@ -81,37 +78,36 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.Test
 
             // Act and Assert
             TestHelpers.VerifyDefaults(provider.Settings);
-
         }
 
         [Fact]
         public void AddConfigServerClientSettings_ChangesDataDictionary()
         {
             // Arrange
-            ConfigServerClientSettings settings = new ConfigServerClientSettings();
-            settings.AccessTokenUri = "http://foo.bar/";
-            settings.ClientId = "client_id";
-            settings.ClientSecret = "client_secret";
-            settings.Enabled = true;
-            settings.Environment = "environment";
-            settings.FailFast = false;
-            settings.Label = "label";
-            settings.Name = "name";
-            settings.Password = "password";
-            settings.Uri = "http://foo.bar/";
-            settings.Username = "username";
-            settings.ValidateCertificates = false;
-            settings.Token = "vaulttoken";
-            settings.TokenRenewRate = 1;
-            settings.TokenTtl = 2;
+            ConfigServerClientSettings settings = new ConfigServerClientSettings
+            {
+                AccessTokenUri = "http://foo.bar/",
+                ClientId = "client_id",
+                ClientSecret = "client_secret",
+                Enabled = true,
+                Environment = "environment",
+                FailFast = false,
+                Label = "label",
+                Name = "name",
+                Password = "password",
+                Uri = "http://foo.bar/",
+                Username = "username",
+                ValidateCertificates = false,
+                Token = "vaulttoken",
+                TokenRenewRate = 1,
+                TokenTtl = 2
+            };
             ConfigServerConfigurationProvider provider = new ConfigServerConfigurationProvider(settings);
-
 
             // Act and Assert
             provider.AddConfigServerClientSettings();
 
-            string value;
-            Assert.True(provider.TryGet("spring:cloud:config:access_token_uri", out value));
+            Assert.True(provider.TryGet("spring:cloud:config:access_token_uri", out string value));
             Assert.Equal("http://foo.bar/", value);
             Assert.True(provider.TryGet("spring:cloud:config:client_id", out value));
             Assert.Equal("client_id", value);
@@ -144,9 +140,8 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.Test
             Assert.Equal("1", value);
             Assert.True(provider.TryGet("spring:cloud:config:tokenTtl", out value));
             Assert.Equal("2", value);
-
         }
-        
+
         [Fact]
         public void GetConfigServerUri_WithExtraPathInfo()
         {
@@ -182,6 +177,7 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.Test
             string path = provider.GetConfigServerUri(null);
             Assert.Equal("http://localhost:9999/" + settings.Name + "/" + settings.Environment, path);
         }
+
         [Fact]
         public void GetConfigServerUri_WithEndingSlash()
         {
@@ -193,8 +189,5 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.Test
             string path = provider.GetConfigServerUri(null);
             Assert.Equal("http://localhost:9999/" + settings.Name + "/" + settings.Environment, path);
         }
-
     }
 }
-
-

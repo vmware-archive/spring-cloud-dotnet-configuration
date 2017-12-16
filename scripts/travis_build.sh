@@ -2,7 +2,7 @@
 
 echo Code is built in Unit Tests
 
-cd src/Pivotal.Extensions.Configuration.ConfigServer
+cd src/Pivotal.Extensions.Configuration.ConfigServerBase
 dotnet restore --configfile ../../nuget.config
 cd ../..
 

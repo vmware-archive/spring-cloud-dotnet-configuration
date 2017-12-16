@@ -3,13 +3,13 @@
   <Import Project="..\..\versions.props" />
 
   <PropertyGroup>
-    <Description>Spring Cloud Services Config Server Configuration Provider</Description>
+    <Description>Spring Cloud Services Config Server Configuration Provider - Base Package</Description>
     <VersionPrefix>$(SteeltoeVersion)</VersionPrefix>
     <VersionSuffix>$(VersionSuffix)</VersionSuffix>
     <Authors>Pivotal;dtillman</Authors>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
-    <AssemblyName>Pivotal.Extensions.Configuration.ConfigServer</AssemblyName>
-    <PackageId>Pivotal.Extensions.Configuration.ConfigServer</PackageId>
+    <AssemblyName>Pivotal.Extensions.Configuration.ConfigServerBase</AssemblyName>
+    <PackageId>Pivotal.Extensions.Configuration.ConfigServerBase</PackageId>
     <PackageTags>CloudFoundry;Spring Cloud;Spring Cloud Config Server</PackageTags>
     <PackageIconUrl>http://steeltoe.io/images/transparent.png</PackageIconUrl>
     <PackageProjectUrl>http://steeltoe.io</PackageProjectUrl>
@@ -17,8 +17,8 @@
   </PropertyGroup>
 
 <ItemGroup>
-    <PackageReference Include="Steeltoe.Extensions.Configuration.CloudFoundry" Version="$(SteeltoeConfigVersion)" />
-    <PackageReference Include="Steeltoe.Extensions.Configuration.ConfigServer" Version="$(SteeltoeConfigVersion)" />
+    <PackageReference Include="Steeltoe.Extensions.Configuration.CloudFoundryBase" Version="$(SteeltoeConfigVersion)" />
+    <PackageReference Include="Steeltoe.Extensions.Configuration.ConfigServerBase" Version="$(SteeltoeConfigVersion)" />
     <PackageReference Include="Steeltoe.Common.Http" Version="$(SteeltoeCommonVersion)" />
     <PackageReference Include="Steeltoe.Common" Version="$(SteeltoeCommonVersion)" />
     <PackageReference Include="StyleCop.Analyzers" Version="$(StyleCopVersion)">

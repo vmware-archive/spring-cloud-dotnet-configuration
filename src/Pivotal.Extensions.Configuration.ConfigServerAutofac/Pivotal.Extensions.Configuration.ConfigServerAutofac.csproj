@@ -26,11 +26,11 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(CI_BUILD)' == ''">
-    <ProjectReference Include="..\Pivotal.Extensions.Configuration.ConfigServer\Pivotal.Extensions.Configuration.ConfigServer.csproj" />
+    <ProjectReference Include="..\Pivotal.Extensions.Configuration.ConfigServerBase\Pivotal.Extensions.Configuration.ConfigServerBase.csproj" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(CI_BUILD)' == 'True'">
-    <PackageReference Include="Pivotal.Extensions.Configuration.ConfigServer" Version="$(SteeltoeVersion)$(SteeltoeVersionSuffix)" />
+    <PackageReference Include="Pivotal.Extensions.Configuration.ConfigServerBase" Version="$(SteeltoeVersion)$(SteeltoeVersionSuffix)" />
   </ItemGroup>
   
   <PropertyGroup>

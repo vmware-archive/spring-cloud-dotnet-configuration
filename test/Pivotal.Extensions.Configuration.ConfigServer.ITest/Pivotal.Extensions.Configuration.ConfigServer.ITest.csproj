@@ -15,7 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Pivotal.Extensions.Configuration.ConfigServerCore\Pivotal.Extensions.Configuration.ConfigServerCore.csproj" />
-    <ProjectReference Include="..\..\test\Pivotal.Extensions.Configuration.ConfigServer.Test\Pivotal.Extensions.Configuration.ConfigServer.Test.csproj" />
+    <ProjectReference Include="..\..\test\Pivotal.Extensions.Configuration.ConfigServerBase.Test\Pivotal.Extensions.Configuration.ConfigServerBase.Test.csproj" />
   </ItemGroup>
 
   <ItemGroup>

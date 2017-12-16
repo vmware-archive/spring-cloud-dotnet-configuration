@@ -14,4 +14,4 @@
 
 using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("Pivotal.Extensions.Configuration.ConfigServer.Test")]
+[assembly: InternalsVisibleTo("Pivotal.Extensions.Configuration.ConfigServerBase.Test")]

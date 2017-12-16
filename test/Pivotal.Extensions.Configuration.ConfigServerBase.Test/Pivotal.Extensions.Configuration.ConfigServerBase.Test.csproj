@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Pivotal.Extensions.Configuration.ConfigServer\Pivotal.Extensions.Configuration.ConfigServer.csproj" />
+    <ProjectReference Include="..\..\src\Pivotal.Extensions.Configuration.ConfigServerBase\Pivotal.Extensions.Configuration.ConfigServerBase.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -40,10 +40,6 @@
       <Link>stylecop.json</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </AdditionalFiles>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
   </ItemGroup>
 
 </Project>

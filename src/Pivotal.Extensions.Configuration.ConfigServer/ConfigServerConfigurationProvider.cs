@@ -186,8 +186,11 @@ namespace Pivotal.Extensions.Configuration.ConfigServer
 #if NET452
             finally
             {
-                ServicePointManager.SecurityProtocol = prevProtocols;
-                ServicePointManager.ServerCertificateValidationCallback = prevValidator;
+                if (!Settings.ValidateCertificates)
+                {
+                    ServicePointManager.SecurityProtocol = prevProtocols;
+                    ServicePointManager.ServerCertificateValidationCallback = prevValidator;
+                }
             }
 #endif
             return null;

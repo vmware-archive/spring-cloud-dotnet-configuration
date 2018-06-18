@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 
@@ -57,11 +58,17 @@ namespace Pivotal.Extensions.Configuration.ConfigServer
             return webHostBuilder;
         }
 
-        public static IWebHostBuilder AddConfigServer(this IWebHostBuilder hostBuilder)
+        /// <summary>
+        /// Add Config Server and Cloud Foundry as application configuration sources
+        /// </summary>
+        /// <param name="hostBuilder"><see cref="IWebHostBuilder"/></param>
+        /// <param name="loggerFactory"><see cref="ILoggerFactory"/></param>
+        /// <returns><see cref="IWebHostBuilder"/> with config server and Cloud Foundry Config Provider attached</returns>
+        public static IWebHostBuilder AddConfigServer(this IWebHostBuilder hostBuilder, ILoggerFactory loggerFactory = null)
         {
             hostBuilder.ConfigureAppConfiguration((context, config) =>
             {
-                config.AddConfigServer(context.HostingEnvironment);
+                config.AddConfigServer(context.HostingEnvironment, loggerFactory);
             });
 
             return hostBuilder;

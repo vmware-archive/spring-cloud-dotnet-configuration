@@ -16,6 +16,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Steeltoe.Extensions.Configuration.CloudFoundry;
 using System;
+using System.Linq;
 using System.Reflection;
 
 namespace Pivotal.Extensions.Configuration.ConfigServer
@@ -93,7 +94,11 @@ namespace Pivotal.Extensions.Configuration.ConfigServer
                 throw new ArgumentNullException(nameof(defaultSettings));
             }
 
-            configurationBuilder.Add(new CloudFoundryConfigurationSource());
+            if (!configurationBuilder.Sources.Any(c => c.GetType() == typeof(CloudFoundryConfigurationSource)))
+            {
+                configurationBuilder.Add(new CloudFoundryConfigurationSource());
+            }
+
             configurationBuilder.Add(new ConfigServerConfigurationProvider(defaultSettings, logFactory));
             return configurationBuilder;
         }

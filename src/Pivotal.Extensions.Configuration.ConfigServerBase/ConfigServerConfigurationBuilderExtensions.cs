@@ -76,10 +76,11 @@ namespace Pivotal.Extensions.Configuration.ConfigServer
         }
 
         /// <summary>
-        /// Add Config Server and Cloud Foundry as application configuration sources
+        /// Add Config Server and Cloud Foundry as application configuration sources <para />
+        /// Default settings will be overwritten by service bindings in Cloud Foundry!
         /// </summary>
         /// <param name="configurationBuilder">Your <see cref="IConfigurationBuilder"/></param>
-        /// <param name="defaultSettings">Configuration settings for accessing the Config Server</param>
+        /// <param name="defaultSettings">Default <see cref="ConfigServerClientSettings"/> for accessing the Config Server</param>
         /// <param name="logFactory">An <see cref="ILoggerFactory"/> for logging within configuration providers</param>
         /// <returns>Your <see cref="IConfigurationBuilder"/> with additional configuration providers</returns>
         public static IConfigurationBuilder AddConfigServer(this IConfigurationBuilder configurationBuilder, ConfigServerClientSettings defaultSettings, ILoggerFactory logFactory = null)

@@ -14,8 +14,10 @@
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Steeltoe.Extensions.Configuration.CloudFoundry;
 using System;
 using System.IO;
+using System.Linq;
 using Xunit;
 
 namespace Pivotal.Extensions.Configuration.ConfigServer.Test
@@ -90,6 +92,33 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.Test
 
             Assert.NotNull(configServerProvider);
             Assert.Equal(settings.Uri, configServerProvider.Settings.Uri);
+        }
+
+        [Fact]
+        public void AddConfigServer_AddsCloudFoundryConfigurationSource()
+        {
+            // arrange
+            var configurationBuilder = new ConfigurationBuilder();
+
+            // act
+            configurationBuilder.AddConfigServer();
+
+            // assert
+            Assert.Single(configurationBuilder.Sources.Where(c => c.GetType() == typeof(CloudFoundryConfigurationSource)));
+        }
+
+        [Fact]
+        public void AddConfigServer_Only_AddsOneCloudFoundryConfigurationSource()
+        {
+            // arrange
+            var configurationBuilder = new ConfigurationBuilder();
+
+            // act
+            configurationBuilder.AddCloudFoundry(new CustomCloudFoundrySettingsReader());
+            configurationBuilder.AddConfigServer();
+
+            // assert
+            Assert.Single(configurationBuilder.Sources.Where(c => c.GetType() == typeof(CloudFoundryConfigurationSource)));
         }
 
         [Fact]

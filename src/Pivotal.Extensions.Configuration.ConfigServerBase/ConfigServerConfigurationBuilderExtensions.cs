@@ -16,6 +16,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Steeltoe.Extensions.Configuration.CloudFoundry;
 using System;
+using System.Linq;
 using System.Reflection;
 
 namespace Pivotal.Extensions.Configuration.ConfigServer
@@ -27,16 +28,37 @@ namespace Pivotal.Extensions.Configuration.ConfigServer
     {
         private const string DEFAULT_ENVIRONMENT = "Production";
 
+        /// <summary>
+        /// Add Config Server and Cloud Foundry as application configuration sources
+        /// </summary>
+        /// <param name="configurationBuilder">Your <see cref="IConfigurationBuilder"/></param>
+        /// <param name="logFactory">An <see cref="ILoggerFactory"/> for logging within configuration providers</param>
+        /// <returns>Your <see cref="IConfigurationBuilder"/> with additional configuration providers</returns>
         public static IConfigurationBuilder AddConfigServer(this IConfigurationBuilder configurationBuilder, ILoggerFactory logFactory = null)
         {
-            return configurationBuilder.AddConfigServer(DEFAULT_ENVIRONMENT, Assembly.GetEntryAssembly()?.GetName().Name);
+            return configurationBuilder.AddConfigServer(DEFAULT_ENVIRONMENT, Assembly.GetEntryAssembly()?.GetName().Name, logFactory);
         }
 
+        /// <summary>
+        /// Add Config Server and Cloud Foundry as application configuration sources
+        /// </summary>
+        /// <param name="configurationBuilder">Your <see cref="IConfigurationBuilder"/></param>
+        /// <param name="environment">The name of the environment to retrieve configuration for</param>
+        /// <param name="logFactory">An <see cref="ILoggerFactory"/> for logging within configuration providers</param>
+        /// <returns>Your <see cref="IConfigurationBuilder"/> with additional configuration providers</returns>
         public static IConfigurationBuilder AddConfigServer(this IConfigurationBuilder configurationBuilder, string environment, ILoggerFactory logFactory = null)
         {
-            return configurationBuilder.AddConfigServer(environment, Assembly.GetEntryAssembly()?.GetName().Name);
+            return configurationBuilder.AddConfigServer(environment, Assembly.GetEntryAssembly()?.GetName().Name, logFactory);
         }
 
+        /// <summary>
+        /// Add Config Server and Cloud Foundry as application configuration sources
+        /// </summary>
+        /// <param name="configurationBuilder">Your <see cref="IConfigurationBuilder"/></param>
+        /// <param name="environment">The name of the environment to retrieve configuration for</param>
+        /// <param name="applicationName">The name of your application, for retrieving app-specific settings</param>
+        /// <param name="logFactory">An <see cref="ILoggerFactory"/> for logging within configuration providers</param>
+        /// <returns>Your <see cref="IConfigurationBuilder"/> with additional configuration providers</returns>
         public static IConfigurationBuilder AddConfigServer(this IConfigurationBuilder configurationBuilder, string environment, string applicationName, ILoggerFactory logFactory = null)
         {
             if (configurationBuilder == null)
@@ -53,6 +75,14 @@ namespace Pivotal.Extensions.Configuration.ConfigServer
             return configurationBuilder.AddConfigServer(settings, logFactory);
         }
 
+        /// <summary>
+        /// Add Config Server and Cloud Foundry as application configuration sources <para />
+        /// Default settings will be overwritten by service bindings in Cloud Foundry!
+        /// </summary>
+        /// <param name="configurationBuilder">Your <see cref="IConfigurationBuilder"/></param>
+        /// <param name="defaultSettings">Default <see cref="ConfigServerClientSettings"/> for accessing the Config Server</param>
+        /// <param name="logFactory">An <see cref="ILoggerFactory"/> for logging within configuration providers</param>
+        /// <returns>Your <see cref="IConfigurationBuilder"/> with additional configuration providers</returns>
         public static IConfigurationBuilder AddConfigServer(this IConfigurationBuilder configurationBuilder, ConfigServerClientSettings defaultSettings, ILoggerFactory logFactory = null)
         {
             if (configurationBuilder == null)
@@ -65,7 +95,11 @@ namespace Pivotal.Extensions.Configuration.ConfigServer
                 throw new ArgumentNullException(nameof(defaultSettings));
             }
 
-            configurationBuilder.Add(new CloudFoundryConfigurationSource());
+            if (!configurationBuilder.Sources.Any(c => c.GetType() == typeof(CloudFoundryConfigurationSource)))
+            {
+                configurationBuilder.Add(new CloudFoundryConfigurationSource());
+            }
+
             configurationBuilder.Add(new ConfigServerConfigurationProvider(defaultSettings, logFactory));
             return configurationBuilder;
         }

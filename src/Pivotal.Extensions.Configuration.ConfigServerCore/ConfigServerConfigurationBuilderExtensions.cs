@@ -24,6 +24,13 @@ namespace Pivotal.Extensions.Configuration.ConfigServer
     /// </summary>
     public static class ConfigServerConfigurationBuilderExtensions
     {
+        /// <summary>
+        /// Add Config Server and Cloud Foundry as application configuration sources
+        /// </summary>
+        /// <param name="configurationBuilder">Your <see cref="IConfigurationBuilder"/></param>
+        /// <param name="environment">Your <see cref="IHostingEnvironment"/></param>
+        /// <param name="logFactory">An <see cref="ILoggerFactory"/> for logging inside the config server client</param>
+        /// <returns><see cref="IConfigurationBuilder"/>With additional configuration providers</returns>
         public static IConfigurationBuilder AddConfigServer(this IConfigurationBuilder configurationBuilder, IHostingEnvironment environment, ILoggerFactory logFactory = null)
         {
             if (configurationBuilder == null)

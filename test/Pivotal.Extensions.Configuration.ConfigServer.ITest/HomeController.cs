@@ -38,6 +38,5 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.ITest
                 return string.Empty;
             }
         }
-
     }
 }

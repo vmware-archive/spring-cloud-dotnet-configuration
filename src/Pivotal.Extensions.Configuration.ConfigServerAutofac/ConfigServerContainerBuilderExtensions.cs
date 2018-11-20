@@ -22,6 +22,7 @@ namespace Pivotal.Extensions.Configuration.ConfigServer
     /// <summary>
     /// Extension methods for adding services related to Spring Cloud Config Server.
     /// </summary>
+    [Obsolete("Use the Steeltoe.Extension.Configuration packages!")]
     public static class ConfigServerContainerBuilderExtensions
     {
         public static void RegisterConfigServerClientOptions(this ContainerBuilder container, IConfiguration config)

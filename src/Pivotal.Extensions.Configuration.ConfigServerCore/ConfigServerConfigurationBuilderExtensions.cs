@@ -22,6 +22,7 @@ namespace Pivotal.Extensions.Configuration.ConfigServer
     /// <summary>
     /// Extension methods for adding <see cref="ConfigServerConfigurationProvider"/>.
     /// </summary>
+    [Obsolete("Use the Steeltoe.Extension.Configuration packages!")]
     public static class ConfigServerConfigurationBuilderExtensions
     {
         /// <summary>

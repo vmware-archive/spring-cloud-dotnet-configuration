@@ -12,28 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
 using ST = Steeltoe.Extensions.Configuration.ConfigServer;
 
 namespace Pivotal.Extensions.Configuration.ConfigServer
 {
+    [Obsolete("Use the Steeltoe.Extension.Configuration packages!")]
     public class ConfigServerClientSettingsOptions : ST.ConfigServerClientSettingsOptions
     {
-        public string Access_Token_Uri { get; set; }
-
-        public string Client_Secret { get; set; }
-
-        public string Client_Id { get; set; }
-
-        public int TokenTtl { get; set; } = ConfigServerClientSettings.DEFAULT_VAULT_TOKEN_TTL;
-
-        public int TokenRenewRate { get; set; } = ConfigServerClientSettings.DEFAULT_VAULT_TOKEN_RENEW_RATE;
-
-        public string AccessTokenUri => Access_Token_Uri;
-
-        public string ClientSecret => Client_Secret;
-
-        public string ClientId => Client_Id;
-
         public new ConfigServerClientSettings Settings
         {
             get

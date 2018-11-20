@@ -16,12 +16,14 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
+using ST = Steeltoe.Extensions.Configuration.ConfigServer;
 
 namespace Pivotal.Extensions.Configuration.ConfigServer
 {
     /// <summary>
     /// Extension methods for adding services related to Spring Cloud Config Server.
     /// </summary>
+    [Obsolete("Use the Steeltoe.Extension.Configuration packages!")]
     public static class ConfigServerServiceCollectionExtensions
     {
         public static IServiceCollection ConfigureConfigServerClientOptions(this IServiceCollection services, IConfiguration config)
@@ -46,26 +48,7 @@ namespace Pivotal.Extensions.Configuration.ConfigServer
 
         public static IServiceCollection AddConfiguration(this IServiceCollection services, IConfiguration config)
         {
-            if (services == null)
-            {
-                throw new ArgumentNullException(nameof(services));
-            }
-
-            if (config == null)
-            {
-                throw new ArgumentNullException(nameof(config));
-            }
-
-            services.AddOptions();
-
-            services.TryAddSingleton<IConfiguration>(config);
-
-            if (config is IConfigurationRoot root)
-            {
-                services.TryAddSingleton<IConfigurationRoot>(root);
-            }
-
-            return services;
+            return ST.ConfigServerServiceCollectionExtensions.AddConfiguration(services, config);
         }
     }
 }

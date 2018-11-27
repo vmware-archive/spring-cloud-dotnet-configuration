@@ -16,7 +16,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using ST = Steeltoe.Extensions.Configuration.ConfigServer;
 
 namespace Pivotal.Extensions.Configuration.ConfigServer
 {
@@ -32,7 +31,32 @@ namespace Pivotal.Extensions.Configuration.ConfigServer
         /// <remarks>runLocalPort parameter will not be used if an environment variable PORT is found</remarks>
         public static IWebHostBuilder UseCloudFoundryHosting(this IWebHostBuilder webHostBuilder, int? runLocalPort = null)
         {
-            return ST.ConfigServerHostBuilderExtensions.UseCloudFoundryHosting(webHostBuilder, runLocalPort);
+            if (webHostBuilder == null)
+            {
+                throw new ArgumentNullException(nameof(webHostBuilder));
+            }
+
+            List<string> urls = new List<string>();
+
+            string portStr = Environment.GetEnvironmentVariable("PORT");
+            if (!string.IsNullOrWhiteSpace(portStr))
+            {
+                if (int.TryParse(portStr, out int port))
+                {
+                    urls.Add($"http://*:{port}");
+                }
+            }
+            else if (runLocalPort != null)
+            {
+                urls.Add($"http://*:{runLocalPort}");
+            }
+
+            if (urls.Count > 0)
+            {
+                webHostBuilder.UseUrls(urls.ToArray());
+            }
+
+            return webHostBuilder;
         }
 
         /// <summary>

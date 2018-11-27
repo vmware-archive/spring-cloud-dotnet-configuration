@@ -48,7 +48,26 @@ namespace Pivotal.Extensions.Configuration.ConfigServer
 
         public static IServiceCollection AddConfiguration(this IServiceCollection services, IConfiguration config)
         {
-            return ST.ConfigServerServiceCollectionExtensions.AddConfiguration(services, config);
+            if (services == null)
+            {
+                throw new ArgumentNullException(nameof(services));
+            }
+
+            if (config == null)
+            {
+                throw new ArgumentNullException(nameof(config));
+            }
+
+            services.AddOptions();
+
+            services.TryAddSingleton<IConfiguration>(config);
+
+            if (config is IConfigurationRoot root)
+            {
+                services.TryAddSingleton<IConfigurationRoot>(root);
+            }
+
+            return services;
         }
     }
 }

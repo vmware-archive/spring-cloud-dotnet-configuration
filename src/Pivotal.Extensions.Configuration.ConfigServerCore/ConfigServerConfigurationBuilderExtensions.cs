@@ -22,7 +22,7 @@ namespace Pivotal.Extensions.Configuration.ConfigServer
     /// <summary>
     /// Extension methods for adding <see cref="ConfigServerConfigurationProvider"/>.
     /// </summary>
-    [Obsolete("Use the Steeltoe.Extension.Configuration packages!")]
+    [Obsolete("Use the Steeltoe.Extensions.Configuration.ConfigServerCore packages!")]
     public static class ConfigServerConfigurationBuilderExtensions
     {
         /// <summary>
@@ -32,6 +32,7 @@ namespace Pivotal.Extensions.Configuration.ConfigServer
         /// <param name="environment">Your <see cref="IHostingEnvironment"/></param>
         /// <param name="logFactory">An <see cref="ILoggerFactory"/> for logging inside the config server client</param>
         /// <returns><see cref="IConfigurationBuilder"/>With additional configuration providers</returns>
+        [Obsolete("Use the Steeltoe.Extensions.Configuration.ConfigServerCore packages!")]
         public static IConfigurationBuilder AddConfigServer(this IConfigurationBuilder configurationBuilder, IHostingEnvironment environment, ILoggerFactory logFactory = null)
         {
             if (configurationBuilder == null)

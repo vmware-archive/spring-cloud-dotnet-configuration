@@ -19,7 +19,7 @@ using System.Collections.Generic;
 
 namespace Pivotal.Extensions.Configuration.ConfigServer
 {
-    [Obsolete("Use the Steeltoe.Extension.Configuration packages!")]
+    [Obsolete("Use the Steeltoe.Extensions.Configuration.ConfigServerCore packages!")]
     public static class ConfigServerHostBuilderExtensions
     {
         /// <summary>
@@ -29,6 +29,7 @@ namespace Pivotal.Extensions.Configuration.ConfigServer
         /// <param name="runLocalPort">Set the port number with code so you don't need to set environment variables locally</param>
         /// <returns>Your WebHostBuilder, now listening on port(s) found in the environment or passed in</returns>
         /// <remarks>runLocalPort parameter will not be used if an environment variable PORT is found</remarks>
+        [Obsolete("Use the Steeltoe.Extensions.Configuration.ConfigServerCore packages!")]
         public static IWebHostBuilder UseCloudFoundryHosting(this IWebHostBuilder webHostBuilder, int? runLocalPort = null)
         {
             if (webHostBuilder == null)
@@ -65,6 +66,7 @@ namespace Pivotal.Extensions.Configuration.ConfigServer
         /// <param name="hostBuilder"><see cref="IWebHostBuilder"/></param>
         /// <param name="loggerFactory"><see cref="ILoggerFactory"/></param>
         /// <returns><see cref="IWebHostBuilder"/> with config server and Cloud Foundry Config Provider attached</returns>
+        [Obsolete("Use the Steeltoe.Extensions.Configuration.ConfigServerCore packages!")]
         public static IWebHostBuilder AddConfigServer(this IWebHostBuilder hostBuilder, ILoggerFactory loggerFactory = null)
         {
             hostBuilder.ConfigureAppConfiguration((context, config) =>

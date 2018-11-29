@@ -24,7 +24,7 @@ namespace Pivotal.Extensions.Configuration.ConfigServer
     /// A Spring Cloud Config Server based <see cref="ConfigurationProvider" for use on CloudFoundry/>.
     /// </summary>
     ///
-    [Obsolete("Use the Steeltoe.Extension.Configuration packages!")]
+    [Obsolete("Use the Steeltoe.Extensions.Configuration.ConfigServerBase packages!")]
     public class ConfigServerConfigurationProvider : ST.ConfigServerConfigurationProvider
     {
         /// <summary>

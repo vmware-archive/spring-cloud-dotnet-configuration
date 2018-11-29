@@ -17,7 +17,7 @@ using ST = Steeltoe.Extensions.Configuration.ConfigServer;
 
 namespace Pivotal.Extensions.Configuration.ConfigServer
 {
-    [Obsolete("Use the Steeltoe.Extension.Configuration packages!")]
+    [Obsolete("Use the Steeltoe.Extensions.Configuration.ConfigServerBase packages!")]
     public class ConfigServerClientSettingsOptions : ST.ConfigServerClientSettingsOptions
     {
         public new ConfigServerClientSettings Settings

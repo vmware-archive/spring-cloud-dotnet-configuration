@@ -23,9 +23,10 @@ namespace Pivotal.Extensions.Configuration.ConfigServer
     /// <summary>
     /// Extension methods for adding services related to Spring Cloud Config Server.
     /// </summary>
-    [Obsolete("Use the Steeltoe.Extension.Configuration packages!")]
+    [Obsolete("Use the Steeltoe.Extensions.Configuration.ConfigServerCore packages!")]
     public static class ConfigServerServiceCollectionExtensions
     {
+        [Obsolete("Use the Steeltoe.Extensions.Configuration.ConfigServerCore packages!")]
         public static IServiceCollection ConfigureConfigServerClientOptions(this IServiceCollection services, IConfiguration config)
         {
             if (services == null)
@@ -46,6 +47,7 @@ namespace Pivotal.Extensions.Configuration.ConfigServer
             return services;
         }
 
+        [Obsolete("Use the Steeltoe.Extensions.Configuration.ConfigServerCore packages!")]
         public static IServiceCollection AddConfiguration(this IServiceCollection services, IConfiguration config)
         {
             if (services == null)

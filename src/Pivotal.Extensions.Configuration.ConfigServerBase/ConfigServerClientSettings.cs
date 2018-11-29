@@ -21,7 +21,7 @@ namespace Pivotal.Extensions.Configuration.ConfigServer
     /// Holds the settings used to configure the Spring Cloud Config Server provider
     /// <see cref="ConfigServerConfigurationProvider"/>.
     /// </summary>
-    [Obsolete("Use the Steeltoe.Extension.Configuration packages!")]
+    [Obsolete("Use the Steeltoe.Extensions.Configuration.ConfigServerBase packages!")]
     public class ConfigServerClientSettings : ST.ConfigServerClientSettings
     {
         /// <summary>

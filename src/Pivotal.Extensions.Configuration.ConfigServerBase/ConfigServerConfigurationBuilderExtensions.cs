@@ -24,6 +24,7 @@ namespace Pivotal.Extensions.Configuration.ConfigServer
     /// <summary>
     /// Extension methods for adding <see cref="ConfigServerConfigurationProvider"/>.
     /// </summary>
+    [Obsolete("Use the Steeltoe.Extensions.Configuration.ConfigServerBase packages!")]
     public static class ConfigServerConfigurationBuilderExtensions
     {
         private const string DEFAULT_ENVIRONMENT = "Production";
@@ -34,6 +35,7 @@ namespace Pivotal.Extensions.Configuration.ConfigServer
         /// <param name="configurationBuilder">Your <see cref="IConfigurationBuilder"/></param>
         /// <param name="logFactory">An <see cref="ILoggerFactory"/> for logging within configuration providers</param>
         /// <returns>Your <see cref="IConfigurationBuilder"/> with additional configuration providers</returns>
+        [Obsolete("Use the Steeltoe.Extensions.Configuration.ConfigServerBase packages!")]
         public static IConfigurationBuilder AddConfigServer(this IConfigurationBuilder configurationBuilder, ILoggerFactory logFactory = null)
         {
             return configurationBuilder.AddConfigServer(DEFAULT_ENVIRONMENT, Assembly.GetEntryAssembly()?.GetName().Name, logFactory);
@@ -46,6 +48,7 @@ namespace Pivotal.Extensions.Configuration.ConfigServer
         /// <param name="environment">The name of the environment to retrieve configuration for</param>
         /// <param name="logFactory">An <see cref="ILoggerFactory"/> for logging within configuration providers</param>
         /// <returns>Your <see cref="IConfigurationBuilder"/> with additional configuration providers</returns>
+        [Obsolete("Use the Steeltoe.Extensions.Configuration.ConfigServerBase packages!")]
         public static IConfigurationBuilder AddConfigServer(this IConfigurationBuilder configurationBuilder, string environment, ILoggerFactory logFactory = null)
         {
             return configurationBuilder.AddConfigServer(environment, Assembly.GetEntryAssembly()?.GetName().Name, logFactory);
@@ -59,6 +62,7 @@ namespace Pivotal.Extensions.Configuration.ConfigServer
         /// <param name="applicationName">The name of your application, for retrieving app-specific settings</param>
         /// <param name="logFactory">An <see cref="ILoggerFactory"/> for logging within configuration providers</param>
         /// <returns>Your <see cref="IConfigurationBuilder"/> with additional configuration providers</returns>
+        [Obsolete("Use the Steeltoe.Extensions.Configuration.ConfigServerBase packages!")]
         public static IConfigurationBuilder AddConfigServer(this IConfigurationBuilder configurationBuilder, string environment, string applicationName, ILoggerFactory logFactory = null)
         {
             if (configurationBuilder == null)
@@ -83,6 +87,7 @@ namespace Pivotal.Extensions.Configuration.ConfigServer
         /// <param name="defaultSettings">Default <see cref="ConfigServerClientSettings"/> for accessing the Config Server</param>
         /// <param name="logFactory">An <see cref="ILoggerFactory"/> for logging within configuration providers</param>
         /// <returns>Your <see cref="IConfigurationBuilder"/> with additional configuration providers</returns>
+        [Obsolete("Use the Steeltoe.Extensions.Configuration.ConfigServerBase packages!")]
         public static IConfigurationBuilder AddConfigServer(this IConfigurationBuilder configurationBuilder, ConfigServerClientSettings defaultSettings, ILoggerFactory logFactory = null)
         {
             if (configurationBuilder == null)

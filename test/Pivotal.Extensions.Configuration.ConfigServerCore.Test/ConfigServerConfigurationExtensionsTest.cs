@@ -19,6 +19,7 @@ using Microsoft.Extensions.Logging;
 using Pivotal.Extensions.Configuration.ConfigServer;
 using System;
 using System.IO;
+using System.Linq;
 using Xunit;
 
 namespace Pivotal.Extensions.Configuration.ConfigServerCore.Test
@@ -59,15 +60,9 @@ namespace Pivotal.Extensions.Configuration.ConfigServerCore.Test
             // Act and Assert
             configurationBuilder.AddConfigServer(environment);
 
-            ConfigServerConfigurationProvider configServerProvider = null;
-            foreach (IConfigurationSource source in configurationBuilder.Sources)
-            {
-                configServerProvider = source as ConfigServerConfigurationProvider;
-                if (configServerProvider != null)
-                {
-                    break;
-                }
-            }
+            IConfigurationRoot config = configurationBuilder.Build();
+            ConfigServerConfigurationProvider configServerProvider =
+                config.Providers.OfType<ConfigServerConfigurationProvider>().SingleOrDefault();
 
             Assert.NotNull(configServerProvider);
         }
@@ -83,15 +78,9 @@ namespace Pivotal.Extensions.Configuration.ConfigServerCore.Test
             // Act and Assert
             configurationBuilder.AddConfigServer(environment, loggerFactory);
 
-            ConfigServerConfigurationProvider configServerProvider = null;
-            foreach (IConfigurationSource source in configurationBuilder.Sources)
-            {
-                configServerProvider = source as ConfigServerConfigurationProvider;
-                if (configServerProvider != null)
-                {
-                    break;
-                }
-            }
+            IConfigurationRoot config = configurationBuilder.Build();
+            ConfigServerConfigurationProvider configServerProvider =
+                config.Providers.OfType<ConfigServerConfigurationProvider>().SingleOrDefault();
 
             Assert.NotNull(configServerProvider);
             Assert.NotNull(configServerProvider.Logger);
@@ -142,17 +131,10 @@ namespace Pivotal.Extensions.Configuration.ConfigServerCore.Test
 
             // Act and Assert
             configurationBuilder.AddConfigServer(environment);
-            IConfigurationRoot root = configurationBuilder.Build();
 
-            ConfigServerConfigurationProvider configServerProvider = null;
-            foreach (IConfigurationSource source in configurationBuilder.Sources)
-            {
-                configServerProvider = source as ConfigServerConfigurationProvider;
-                if (configServerProvider != null)
-                {
-                    break;
-                }
-            }
+            IConfigurationRoot config = configurationBuilder.Build();
+            ConfigServerConfigurationProvider configServerProvider =
+                config.Providers.OfType<ConfigServerConfigurationProvider>().SingleOrDefault();
 
             Assert.NotNull(configServerProvider);
             ConfigServerClientSettings settings = configServerProvider.Settings;
@@ -210,17 +192,10 @@ namespace Pivotal.Extensions.Configuration.ConfigServerCore.Test
 
             // Act and Assert
             configurationBuilder.AddConfigServer(environment);
-            IConfigurationRoot root = configurationBuilder.Build();
 
-            ConfigServerConfigurationProvider configServerProvider = null;
-            foreach (IConfigurationSource source in configurationBuilder.Sources)
-            {
-                configServerProvider = source as ConfigServerConfigurationProvider;
-                if (configServerProvider != null)
-                {
-                    break;
-                }
-            }
+            IConfigurationRoot config = configurationBuilder.Build();
+            ConfigServerConfigurationProvider configServerProvider =
+                config.Providers.OfType<ConfigServerConfigurationProvider>().SingleOrDefault();
 
             Assert.NotNull(configServerProvider);
             ConfigServerClientSettings settings = configServerProvider.Settings;
@@ -263,17 +238,10 @@ namespace Pivotal.Extensions.Configuration.ConfigServerCore.Test
 
             // Act and Assert
             configurationBuilder.AddConfigServer(environment);
-            IConfigurationRoot root = configurationBuilder.Build();
 
-            ConfigServerConfigurationProvider configServerProvider = null;
-            foreach (IConfigurationSource source in configurationBuilder.Sources)
-            {
-                configServerProvider = source as ConfigServerConfigurationProvider;
-                if (configServerProvider != null)
-                {
-                    break;
-                }
-            }
+            IConfigurationRoot config = configurationBuilder.Build();
+            ConfigServerConfigurationProvider configServerProvider =
+                config.Providers.OfType<ConfigServerConfigurationProvider>().SingleOrDefault();
 
             Assert.NotNull(configServerProvider);
             ConfigServerClientSettings settings = configServerProvider.Settings;
@@ -313,17 +281,10 @@ namespace Pivotal.Extensions.Configuration.ConfigServerCore.Test
 
             // Act and Assert
             configurationBuilder.AddConfigServer(environment);
-            IConfigurationRoot root = configurationBuilder.Build();
 
-            ConfigServerConfigurationProvider configServerProvider = null;
-            foreach (IConfigurationSource source in configurationBuilder.Sources)
-            {
-                configServerProvider = source as ConfigServerConfigurationProvider;
-                if (configServerProvider != null)
-                {
-                    break;
-                }
-            }
+            IConfigurationRoot config = configurationBuilder.Build();
+            ConfigServerConfigurationProvider configServerProvider =
+                config.Providers.OfType<ConfigServerConfigurationProvider>().SingleOrDefault();
 
             Assert.NotNull(configServerProvider);
             ConfigServerClientSettings settings = configServerProvider.Settings;
@@ -381,17 +342,10 @@ namespace Pivotal.Extensions.Configuration.ConfigServerCore.Test
 
             // Act and Assert
             configurationBuilder.AddConfigServer(environment);
-            IConfigurationRoot root = configurationBuilder.Build();
 
-            ConfigServerConfigurationProvider configServerProvider = null;
-            foreach (IConfigurationSource source in configurationBuilder.Sources)
-            {
-                configServerProvider = source as ConfigServerConfigurationProvider;
-                if (configServerProvider != null)
-                {
-                    break;
-                }
-            }
+            IConfigurationRoot config = configurationBuilder.Build();
+            ConfigServerConfigurationProvider configServerProvider =
+                config.Providers.OfType<ConfigServerConfigurationProvider>().SingleOrDefault();
 
             Assert.NotNull(configServerProvider);
             ConfigServerClientSettings settings = configServerProvider.Settings;
@@ -495,18 +449,10 @@ namespace Pivotal.Extensions.Configuration.ConfigServerCore.Test
 
             // Act and Assert
             configurationBuilder.AddConfigServer(environment);
-            IConfigurationRoot root = configurationBuilder.Build();
 
-            // Find our provider so we can check settings
-            ConfigServerConfigurationProvider configServerProvider = null;
-            foreach (IConfigurationSource source in configurationBuilder.Sources)
-            {
-                configServerProvider = source as ConfigServerConfigurationProvider;
-                if (configServerProvider != null)
-                {
-                    break;
-                }
-            }
+            IConfigurationRoot config = configurationBuilder.Build();
+            ConfigServerConfigurationProvider configServerProvider =
+                config.Providers.OfType<ConfigServerConfigurationProvider>().SingleOrDefault();
 
             Assert.NotNull(configServerProvider);
 

@@ -35,9 +35,9 @@ namespace Pivotal.Extensions.Configuration.ConfigServerAutofac.Test
             builder.AddConfigServer("foo", "bar");
 
             // CloudFoundryConfigurationProvider is at slot 0
-            var provider = builder.Sources[1] as ConfigServerConfigurationProvider;
-            Assert.NotNull(provider);
-            var settings = provider.Settings;
+            var source = builder.Sources[1] as ConfigServerConfigurationSource;
+            Assert.NotNull(source);
+            var settings = source.DefaultSettings;
             Assert.NotNull(settings);
             Assert.Equal("foo", settings.Environment);
             Assert.Equal("bar", settings.Name);

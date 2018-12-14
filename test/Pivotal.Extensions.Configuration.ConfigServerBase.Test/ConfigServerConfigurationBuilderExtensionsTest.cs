@@ -48,7 +48,7 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.Test
         }
 
         [Fact]
-        public void AddConfigServer_AddsConfigServerProviderToProvidersList()
+        public void AddConfigServer_AddsConfigServerSourceToList()
         {
             // Arrange
             var configurationBuilder = new ConfigurationBuilder();
@@ -57,17 +57,9 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.Test
             // Act and Assert
             configurationBuilder.AddConfigServer(settings);
 
-            ConfigServerConfigurationProvider configServerProvider = null;
-            foreach (var provider in configurationBuilder.Sources)
-            {
-                configServerProvider = provider as ConfigServerConfigurationProvider;
-                if (configServerProvider != null)
-                {
-                    break;
-                }
-            }
-
-            Assert.NotNull(configServerProvider);
+            ConfigServerConfigurationSource configServerSource =
+                configurationBuilder.Sources.OfType<ConfigServerConfigurationSource>().SingleOrDefault();
+            Assert.NotNull(configServerSource);
         }
 
         [Fact]
@@ -80,15 +72,9 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.Test
             // Act and Assert
             configurationBuilder.AddConfigServer(settings);
 
-            ConfigServerConfigurationProvider configServerProvider = null;
-            foreach (var provider in configurationBuilder.Sources)
-            {
-                configServerProvider = provider as ConfigServerConfigurationProvider;
-                if (configServerProvider != null)
-                {
-                    break;
-                }
-            }
+            IConfigurationRoot config = configurationBuilder.Build();
+            ConfigServerConfigurationProvider configServerProvider =
+                config.Providers.OfType<ConfigServerConfigurationProvider>().SingleOrDefault();
 
             Assert.NotNull(configServerProvider);
             Assert.Equal(settings.Uri, configServerProvider.Settings.Uri);
@@ -154,8 +140,8 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.Test
             configurationBuilder
                 .AddEnvironmentVariables()
                 .AddConfigServer(settings);
-            configurationBuilder.Build();
-            var configServerProvider = configurationBuilder.Sources.FirstOrDefault(c => c.GetType() == typeof(ConfigServerConfigurationProvider));
+            var config = configurationBuilder.Build();
+            ConfigServerConfigurationProvider configServerProvider = config.Providers.OfType<ConfigServerConfigurationProvider>().SingleOrDefault();
 
             // Assert
             Assert.NotNull(configServerProvider);
@@ -206,16 +192,9 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.Test
 
             // Act and Assert
             configurationBuilder.AddConfigServer(settings, loggerFactory);
-
-            ConfigServerConfigurationProvider configServerProvider = null;
-            foreach (var provider in configurationBuilder.Sources)
-            {
-                configServerProvider = provider as ConfigServerConfigurationProvider;
-                if (configServerProvider != null)
-                {
-                    break;
-                }
-            }
+            IConfigurationRoot config = configurationBuilder.Build();
+            ConfigServerConfigurationProvider configServerProvider =
+                config.Providers.OfType<ConfigServerConfigurationProvider>().SingleOrDefault();
 
             Assert.NotNull(configServerProvider);
             Assert.NotNull(configServerProvider.Logger);
@@ -265,18 +244,11 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.Test
             // Act and Assert
             configurationBuilder.AddConfigServer(csettings);
 
-            ConfigServerConfigurationProvider configServerProvider = null;
-            foreach (IConfigurationSource source in configurationBuilder.Sources)
-            {
-                configServerProvider = source as ConfigServerConfigurationProvider;
-                if (configServerProvider != null)
-                {
-                    break;
-                }
-            }
+            IConfigurationRoot config = configurationBuilder.Build();
+            ConfigServerConfigurationProvider configServerProvider =
+                config.Providers.OfType<ConfigServerConfigurationProvider>().SingleOrDefault();
 
             Assert.NotNull(configServerProvider);
-            configurationBuilder.Build();
 
             ConfigServerClientSettings settings = configServerProvider.Settings;
 
@@ -328,17 +300,10 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.Test
 
             // Act and Assert
             configurationBuilder.AddConfigServer(csettings);
-            IConfigurationRoot root = configurationBuilder.Build();
 
-            ConfigServerConfigurationProvider configServerProvider = null;
-            foreach (IConfigurationSource source in configurationBuilder.Sources)
-            {
-                configServerProvider = source as ConfigServerConfigurationProvider;
-                if (configServerProvider != null)
-                {
-                    break;
-                }
-            }
+            IConfigurationRoot config = configurationBuilder.Build();
+            ConfigServerConfigurationProvider configServerProvider =
+                config.Providers.OfType<ConfigServerConfigurationProvider>().SingleOrDefault();
 
             Assert.NotNull(configServerProvider);
             ConfigServerClientSettings settings = configServerProvider.Settings;
@@ -378,17 +343,9 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.Test
 
             // Act and Assert
             configurationBuilder.AddConfigServer(csettings);
-            IConfigurationRoot root = configurationBuilder.Build();
-
-            ConfigServerConfigurationProvider configServerProvider = null;
-            foreach (IConfigurationSource source in configurationBuilder.Sources)
-            {
-                configServerProvider = source as ConfigServerConfigurationProvider;
-                if (configServerProvider != null)
-                {
-                    break;
-                }
-            }
+            IConfigurationRoot config = configurationBuilder.Build();
+            ConfigServerConfigurationProvider configServerProvider =
+                config.Providers.OfType<ConfigServerConfigurationProvider>().SingleOrDefault();
 
             Assert.NotNull(configServerProvider);
             ConfigServerClientSettings settings = configServerProvider.Settings;
@@ -425,17 +382,9 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.Test
 
             // Act and Assert
             configurationBuilder.AddConfigServer(csettings);
-            IConfigurationRoot root = configurationBuilder.Build();
-
-            ConfigServerConfigurationProvider configServerProvider = null;
-            foreach (IConfigurationSource source in configurationBuilder.Sources)
-            {
-                configServerProvider = source as ConfigServerConfigurationProvider;
-                if (configServerProvider != null)
-                {
-                    break;
-                }
-            }
+            IConfigurationRoot config = configurationBuilder.Build();
+            ConfigServerConfigurationProvider configServerProvider =
+                config.Providers.OfType<ConfigServerConfigurationProvider>().SingleOrDefault();
 
             Assert.NotNull(configServerProvider);
             ConfigServerClientSettings settings = configServerProvider.Settings;
@@ -491,17 +440,9 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.Test
 
             // Act and Assert
             configurationBuilder.AddConfigServer(csettings);
-            IConfigurationRoot root = configurationBuilder.Build();
-
-            ConfigServerConfigurationProvider configServerProvider = null;
-            foreach (IConfigurationSource source in configurationBuilder.Sources)
-            {
-                configServerProvider = source as ConfigServerConfigurationProvider;
-                if (configServerProvider != null)
-                {
-                    break;
-                }
-            }
+            IConfigurationRoot config = configurationBuilder.Build();
+            ConfigServerConfigurationProvider configServerProvider =
+                config.Providers.OfType<ConfigServerConfigurationProvider>().SingleOrDefault();
 
             Assert.NotNull(configServerProvider);
             ConfigServerClientSettings settings = configServerProvider.Settings;

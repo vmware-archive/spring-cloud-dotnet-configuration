@@ -60,6 +60,15 @@ namespace Pivotal.Extensions.Configuration.ConfigServer
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="ConfigServerConfigurationProvider"/> class from a <see cref="ConfigServerConfigurationSource"/>
+        /// </summary>
+        /// <param name="source">the <see cref="ConfigServerConfigurationSource"/> the provider uses when accessing the server.</param>
+        public ConfigServerConfigurationProvider(ConfigServerConfigurationSource source)
+            : base(source)
+        {
+        }
+
+        /// <summary>
         /// Gets the configuration settings the provider uses when accessing the server.
         /// </summary>
         public new virtual ConfigServerClientSettings Settings

@@ -74,6 +74,11 @@ namespace Pivotal.Extensions.Configuration.ConfigServer
                 config.AddConfigServer(context.HostingEnvironment, loggerFactory);
             });
 
+            hostBuilder.ConfigureServices((services) =>
+            {
+                services.AddConfigServerHealthContributor();
+            });
+
             return hostBuilder;
         }
     }

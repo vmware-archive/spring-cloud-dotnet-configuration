@@ -14,7 +14,9 @@
 
 using Autofac;
 using Microsoft.Extensions.Configuration;
+using Steeltoe.Common.HealthChecks;
 using Steeltoe.Common.Options.Autofac;
+using Steeltoe.Extensions.Configuration.ConfigServer;
 using System;
 
 namespace Pivotal.Extensions.Configuration.ConfigServer
@@ -40,6 +42,22 @@ namespace Pivotal.Extensions.Configuration.ConfigServer
 
             var section = config.GetSection(ConfigServerClientSettingsOptions.CONFIGURATION_PREFIX);
             container.RegisterOption<ConfigServerClientSettingsOptions>(section);
+        }
+
+        /// <summary>
+        /// Add the ConfigServerHealthContributor as a IHealthContributor to the container.
+        /// Note: You also need to add the applications IConfiguration to the container as well.
+        /// </summary>
+        /// <param name="container">the autofac container builder</param>
+        [Obsolete("Use the Steeltoe.Extensions.Configuration.ConfigServerAutofac packages!")]
+        public static void RegisterConfigServerHealthContributor(this ContainerBuilder container)
+        {
+            if (container == null)
+            {
+                throw new ArgumentNullException(nameof(container));
+            }
+
+            container.RegisterType<ConfigServerHealthContributor>().As<IHealthContributor>().SingleInstance();
         }
     }
 }

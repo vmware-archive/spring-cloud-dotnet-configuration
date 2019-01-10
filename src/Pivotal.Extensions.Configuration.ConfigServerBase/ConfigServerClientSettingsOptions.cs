@@ -46,7 +46,11 @@ namespace Pivotal.Extensions.Configuration.ConfigServer
                     Token = Token,
                     AccessTokenUri = Access_Token_Uri,
                     ClientSecret = Client_Secret,
-                    ClientId = Client_Id
+                    ClientId = Client_Id,
+                    HealthEnabled = HealthEnabled,
+                    HealthTimeToLive = HealthTimeToLive,
+                    DiscoveryEnabled = DiscoveryEnabled,
+                    DiscoveryServiceId = DiscoveryServiceId
                 };
                 return settings;
             }

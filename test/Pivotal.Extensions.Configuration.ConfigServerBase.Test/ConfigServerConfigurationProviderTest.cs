@@ -86,7 +86,7 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.Test
             // Arrange
             ConfigServerClientSettings settings = new ConfigServerClientSettings
             {
-                AccessTokenUri = "http://foo.bar/",
+                AccessTokenUri = "https://foo.bar/",
                 ClientId = "client_id",
                 ClientSecret = "client_secret",
                 Enabled = true,
@@ -95,7 +95,7 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.Test
                 Label = "label",
                 Name = "name",
                 Password = "password",
-                Uri = "http://foo.bar/",
+                Uri = "https://foo.bar/",
                 Username = "username",
                 ValidateCertificates = false,
                 Token = "vaulttoken",
@@ -108,7 +108,7 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.Test
             provider.AddConfigServerClientSettings();
 
             Assert.True(provider.TryGet("spring:cloud:config:access_token_uri", out string value));
-            Assert.Equal("http://foo.bar/", value);
+            Assert.Equal("https://foo.bar/", value);
             Assert.True(provider.TryGet("spring:cloud:config:client_id", out value));
             Assert.Equal("client_id", value);
             Assert.True(provider.TryGet("spring:cloud:config:client_secret", out value));
@@ -122,7 +122,7 @@ namespace Pivotal.Extensions.Configuration.ConfigServer.Test
             Assert.True(provider.TryGet("spring:cloud:config:password", out value));
             Assert.Equal("password", value);
             Assert.True(provider.TryGet("spring:cloud:config:uri", out value));
-            Assert.Equal("http://foo.bar/", value);
+            Assert.Equal("https://foo.bar/", value);
             Assert.True(provider.TryGet("spring:cloud:config:username", out value));
             Assert.Equal("username", value);
 
